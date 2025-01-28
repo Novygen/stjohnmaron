@@ -1,0 +1,11 @@
+// tsconfig.eslint.json
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "pages/**/*.ts",
+    "components/**/*.tsx"
+  ],
+  "exclude": [".eslintrc.js", "commitlint.config.js", "eslint.config.mjs"]
+}

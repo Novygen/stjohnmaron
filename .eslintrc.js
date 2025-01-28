@@ -1,16 +1,18 @@
-/* eslint-disable no-undef */
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json'],
+    project: ['./tsconfig.json', './tsconfig.eslint.json'],
   },
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint-/recommended',
+    'plugin:import/typescript',
+    'plugin:react/recommended',
     'next',
     'next/core-web-vitals',
     // If you use Prettier for formatting:
