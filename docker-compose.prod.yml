@@ -1,0 +1,23 @@
+# docker-compose.prod.yml
+version: '3.9'
+services:
+  web:
+    container_name: stjohnmaron-web-prod
+    build: .
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env.production
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: stjohnmaron-mongo-prod
+    image: mongo:6.0
+    restart: always
+    volumes:
+      - ./db-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=stjohnmarondb
+    ports:
+      - '27017:27017'

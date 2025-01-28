@@ -1,21 +1,36 @@
+/* app/globals.css */
+
+/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Custom color variables derived from the existing site design */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-background: #f5f5f5;
+  --color-header-bg: #781f1f; /* Example maroon color */
+  --color-header-text: #ffffff;
+  --color-text: #333333;
+  --color-accent: #b98b4e; /* Example golden accent */
+  --color-link-hover: #d3a75a; /* Lighter accent for hover states */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* You can add more variables as needed */
 
+/* Example global styles */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  margin: 0; /* remove default browser padding/margin */
+  box-sizing: border-box;
+}
+
+a {
+  transition: color 0.3s;
+  color: var(--color-accent);
+}
+
+a:hover {
+  color: var(--color-link-hover);
 }

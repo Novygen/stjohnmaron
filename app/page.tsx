@@ -1,101 +1,113 @@
-import Image from "next/image";
+// app/page.tsx
+'use client'; // if using client-specific libraries or animations
 
-export default function Home() {
+import React from 'react';
+
+import { motion } from 'framer-motion';
+
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <section>
+      {/* Hero / Banner */}
+      <div
+        className="
+          relative
+          flex
+          items-center
+          justify-center
+          h-[50vh]
+          bg-cover bg-center
+          text-[var(--color-header-text)]
+          text-center
+        "
+        style={{
+          backgroundImage: 'url("/images/church-hero.jpg")', // place an image in /public/images
+          backgroundColor: 'var(--color-header-bg)', // fallback color
+        }}
+      >
+        <div className="bg-black bg-opacity-40 absolute inset-0" />
+        <h2 className="relative z-10 text-3xl md:text-5xl font-bold">
+          Welcome to St John Maron Church
+        </h2>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Contact & Address */}
+      <div
+        id="contact"
+        className="py-8 px-4 sm:px-8 md:px-16 text-center bg-[var(--color-background)]"
+      >
+        <h3 className="text-2xl font-semibold mb-2">
+          45 Inwood Place, Rochester NY 14620
+        </h3>
+        <p className="text-lg">Phone: (585) 473-2362</p>
+      </div>
+
+      {/* Mass Times */}
+      <div
+        id="mass-times"
+        className="py-10 px-4 sm:px-8 md:px-16 bg-[var(--color-accent)] text-[var(--color-header-text)]"
+      >
+        <h2 className="text-2xl font-bold mb-4">Mass Times</h2>
+        <ul className="space-y-2 text-lg">
+          <li>Saturday: 4:30 PM</li>
+          <li>Sunday: 10:00 AM</li>
+          <li>Weekdays (Mon-Fri): 9:00 AM</li>
+          <li>Confessions: 30 minutes before Mass or by request</li>
+        </ul>
+      </div>
+
+      {/* Announcements / Section */}
+      <div className="py-10 px-4 sm:px-8 md:px-16">
+        <h2 className="text-2xl font-bold mb-4">Announcements</h2>
+        <div className="space-y-4">
+          <p>
+            <strong>Upcoming Events:</strong> Check our calendar for parish
+            gatherings and community activities!
+          </p>
+          <p>
+            <strong>Daily Readings:</strong> Scroll down for daily Mass readings
+            or visit our{' '}
+            <a href="#readings" className="underline">
+              Readings Section
+            </a>{' '}
+            below.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+
+      {/* Example Motion Section (Framer Motion) */}
+      <motion.div
+        className="py-10 px-4 sm:px-8 md:px-16 bg-[var(--color-background)] text-center"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }} // animates on first scroll into view
+        transition={{ duration: 0.6 }}
+      >
+        <h2 className="text-2xl font-bold mb-2">Join Our Community</h2>
+        <p>
+          Whether you are visiting or looking for a parish to call home, we
+          warmly welcome you to St John Maron.
+        </p>
+      </motion.div>
+
+      {/* Map or Directions Section (placeholder) */}
+      <div className="py-10 px-4 sm:px-8 md:px-16 text-center bg-[var(--color-accent)] text-[var(--color-header-text)]">
+        <h2 className="text-2xl font-bold mb-4">Location</h2>
+        <p className="mb-4">45 Inwood Place, Rochester NY 14620</p>
+        <iframe
+          title="St John Maron Location"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11656.785201419044!2d-77.585503!3d43.129512!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb91eb91b2d777da7!2sSt%20John%20Maron%20Maronite%20Catholic%20Church!5e0!3m2!1sen!2sus!4vXXXXX"
+          width="100%"
+          height="400"
+          allowFullScreen
+          loading="lazy"
+          className="mx-auto border-0"
+          style={{ maxWidth: '600px' }}
+        />
+      </div>
+
+      {/* Additional sections or embed calendars, etc. */}
+      {/* ... */}
+    </section>
   );
 }
