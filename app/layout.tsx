@@ -2,13 +2,17 @@
 import './globals.css';
 
 import React from 'react';
+
 import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'St John Maron Church',
-  description: 'Official website for our church',
+  title: 'St. John Maron Maronite Catholic Church',
+  description:
+    'Official website for St. John Maron Maronite Catholic Church – Where Faith, Tradition, and Community Come Together.',
+  icons: { icon: '/favicon.ico' },
+  // You can add more SEO-friendly fields here (open graph, twitter, etc.)
 };
 
 export default function RootLayout({
@@ -18,9 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-gray-50">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
       </body>
     </html>
