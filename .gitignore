@@ -13,6 +13,11 @@
 # testing
 /coverage
 
+# data
+db-data
+/db-data
+/db-data/*
+
 # next.js
 /.next/
 /out/
