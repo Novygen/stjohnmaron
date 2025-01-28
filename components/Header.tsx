@@ -21,6 +21,7 @@ export default function Header() {
         <nav className="hidden md:flex gap-6">
           <Link href="/">Home</Link>
           <Link href="/about">About</Link>
+          <Link href="/community">Community</Link>
           <Link href="/ministries">Ministries</Link>
           <Link href="/contact">Contact</Link>
         </nav>
@@ -44,6 +45,9 @@ export default function Header() {
             </Link>
             <Link href="/about" onClick={() => setMobileNavOpen(false)}>
               About
+            </Link>
+            <Link href="/community" onClick={() => setMobileNavOpen(false)}>
+              Community
             </Link>
             <Link href="/ministries" onClick={() => setMobileNavOpen(false)}>
               Ministries
