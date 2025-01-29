@@ -1,19 +1,21 @@
 // app/community/[memberId]/page.tsx
 
 import React from 'react';
-
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { members } from '@/data/members';
-import { notFound } from 'next/navigation'; // For 404 handling
 
-// Generate dynamic metadata (SEO)
+// 1) This forces Next.js to treat the route as dynamic (no static generation)
+//    so you can safely read dynamic params.
+export const dynamic = 'force-dynamic';
+
+// 2) Generate dynamic metadata (SEO)
 export async function generateMetadata({
   params,
 }: {
   params: { memberId: string };
 }): Promise<Metadata> {
-  const { memberId } = params;
-  const memberIdInt = parseInt(memberId, 10);
+  const memberIdInt = parseInt(params.memberId, 10);
   const member = members.find((m) => m.id === memberIdInt);
 
   if (!member) {
@@ -29,22 +31,17 @@ export async function generateMetadata({
   };
 }
 
-interface Params {
-  memberId: string;
-}
-
-export default async function MemberDetailPage({
+// 3) Page component reading params synchronously (no `await params`)
+export default function MemberDetailPage({
   params,
 }: {
   params: { memberId: string };
-}): Promise<Params> {
-  const { memberId } = await params;
-  const memberIdInt = parseInt(memberId, 10);
+}) {
+  const memberIdInt = parseInt(params.memberId, 10);
   const member = members.find((m) => m.id === memberIdInt);
 
   if (!member) {
-    // Render a 404 or redirect
-    notFound();
+    notFound(); // triggers a 404
   }
 
   return (
