@@ -1,36 +1,31 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// app/community/[memberId]/page.tsx
-
 import React from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { members } from '@/data/members';
 
-// 1) Force dynamic so Next.js knows to handle route params at runtime.
+/**
+ * 1) Indicate that this route is dynamic so Next.js won't attempt static generation.
+ *    This is often necessary when dealing with dynamic or async route data.
+ */
 export const dynamic = 'force-dynamic';
 
 /**
- * Define the props for this page.
- * Next.js 13 pages automatically receive:
- *   - `params` (dynamic route segments)
- *   - `searchParams` (query strings)
+ * 2) In Next.js 15+ hypothetical scenario:
+ *    `params` is a Promise. We'll define a type for it.
  */
-interface MemberDetailPageProps {
-  params: {
-    memberId: string;
-  };
-  searchParams?: {
-    [key: string]: any;
-  };
-}
+type AsyncParams = Promise<{ memberId: string }>;
 
-// 2) Generate dynamic metadata (SEO)
+/**
+ * 4) For SEO, we generate metadata asynchronously.
+ *    We'll "await" the `params` promise to get the `memberId`.
+ */
 export async function generateMetadata({
   params,
 }: {
-  params: { memberId: string };
+  params: AsyncParams;
 }): Promise<Metadata> {
-  const memberIdInt = parseInt(params.memberId, 10);
+  const { memberId } = await params; // <-- Hypothetical usage in Next.js 15
+  const memberIdInt = parseInt(memberId, 10);
   const member = members.find((m) => m.id === memberIdInt);
 
   if (!member) {
@@ -47,22 +42,33 @@ export async function generateMetadata({
 }
 
 /**
- * 3) The Page Component
- *    - Marked as a *regular* function returning JSX (no async needed).
+ * 5) Page props interface showing an async `params`.
  */
-export default function MemberDetailPage({ params }: MemberDetailPageProps) {
-  // Convert memberId from string to a number
-  const memberIdInt = parseInt(params.memberId, 10);
+interface MemberDetailPageProps {
+  params: AsyncParams; // hypothetical scenario
+}
 
-  // Find the member in your data
+/**
+ * 6) The page component:
+ *    - Marked async so we can await `params`.
+ *    - If the member is not found, call `notFound()`.
+ */
+export default async function MemberDetailPage({
+  params,
+}: MemberDetailPageProps) {
+  // Unwrap the promise
+  const { memberId } = await params; // <-- new approach in Next.js 15
+  const memberIdInt = parseInt(memberId, 10);
+
+  // Load or find the member from a data array
   const member = members.find((m) => m.id === memberIdInt);
 
-  // If not found, use Next.js notFound() for a 404
+  // If no member found, trigger a 404
   if (!member) {
     notFound();
   }
 
-  // Render the member detail
+  // Render your dynamic page
   return (
     <section
       className="py-10 px-4 bg-white min-h-screen text-gray-800"
@@ -81,7 +87,7 @@ export default function MemberDetailPage({ params }: MemberDetailPageProps) {
 
         <div className="flex flex-col md:flex-row gap-6 items-center md:items-start">
           {/* Photo */}
-          {member?.photoUrl && (
+          {member.photoUrl && (
             <img
               src={member.photoUrl}
               alt={`Photo of ${member.name}`}
@@ -90,14 +96,14 @@ export default function MemberDetailPage({ params }: MemberDetailPageProps) {
           )}
 
           <div>
-            <h1 className="text-3xl font-bold mb-2">{member?.name}</h1>
+            <h1 className="text-3xl font-bold mb-2">{member.name}</h1>
             <p className="text-lg text-gray-600 mb-4">
-              {member?.industry} – {member?.specialization}
+              {member.industry} – {member.specialization}
             </p>
             <p className="text-sm text-gray-800 leading-relaxed">
-              {member?.bio}
+              {member.bio}
             </p>
-            {member?.contactEmail && (
+            {member.contactEmail && (
               <p className="mt-4 text-sm">
                 <strong>Contact:</strong>{' '}
                 <a
