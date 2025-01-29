@@ -6,6 +6,7 @@ import HomeHeroSection from '@/components/Home/HomeHeroSection';
 import PastorsMessageSection from '@/components/Home/PastorsMessageSection';
 import MissionValuesSection from '@/components/Home/MissionValuesSection';
 import MassScheduleSection from '@/components/Home/MassScheduleSection';
+import DiscoverCommunitySection from '@/components/Home/DiscoverCommunitySection';
 import AnnouncementsSection from '@/components/Home/AnnouncementsSection';
 import FeaturedMinistriesSection from '@/components/Home/FeaturedMinistriesSection';
 import SupportGivingSection from '@/components/Home/SupportGivingSection';
@@ -27,19 +28,22 @@ export default function HomePage() {
       {/* 4. Mass Schedule & Liturgies */}
       <MassScheduleSection />
 
-      {/* 5. Announcements & Upcoming Events */}
+      {/* 5. The new community discover section */}
+      <DiscoverCommunitySection />
+
+      {/* 6. Announcements & Upcoming Events */}
       <AnnouncementsSection />
 
-      {/* 6. Featured Ministries & Programs */}
+      {/* 7. Featured Ministries & Programs */}
       <FeaturedMinistriesSection />
 
-      {/* 7. Support & Giving */}
+      {/* 8. Support & Giving */}
       <SupportGivingSection />
 
-      {/* 8. Location & Contact */}
+      {/* 9. Location & Contact */}
       <LocationContactSection />
 
-      {/* 9. Newsletter Subscription */}
+      {/* 10. Newsletter Subscription */}
       <NewsletterSection />
     </>
   );
