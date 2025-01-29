@@ -12,7 +12,7 @@ export async function generateMetadata({
 }: {
   params: { memberId: string };
 }): Promise<Metadata> {
-  const { memberId } = await params;
+  const { memberId } = params;
   const memberIdInt = parseInt(memberId, 10);
   const member = members.find((m) => m.id === memberIdInt);
 
@@ -29,11 +29,15 @@ export async function generateMetadata({
   };
 }
 
+interface Params {
+  memberId: string;
+}
+
 export default async function MemberDetailPage({
   params,
 }: {
   params: { memberId: string };
-}) {
+}): Promise<Params> {
   const { memberId } = await params;
   const memberIdInt = parseInt(memberId, 10);
   const member = members.find((m) => m.id === memberIdInt);
