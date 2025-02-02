@@ -13,14 +13,14 @@ export default function Header() {
     <header className="w-full bg-white shadow">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo / Brand */}
-        <Link href="/" className="text-xl font-bold text-gray-900">
+        <Link href="/admin" className="text-xl font-bold text-gray-900">
           St John Maron
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6">
-          <Link href="/community/request-membership">Join Community</Link>
-          <Link href="/community">Community</Link>
+          <Link href="/admin/requests">Requests</Link>
+          <Link href="/admin/members">Members</Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -38,13 +38,13 @@ export default function Header() {
         <nav className="md:hidden bg-gray-100 py-2">
           <div className="flex flex-col gap-2 px-4">
             <Link
-              href="/community/request-membership"
+              href="/admin/requests"
               onClick={() => setMobileNavOpen(false)}
             >
-              Join Community
+              Requests
             </Link>
-            <Link href="/community" onClick={() => setMobileNavOpen(false)}>
-              Community
+            <Link href="/admin/members" onClick={() => setMobileNavOpen(false)}>
+              Members
             </Link>
           </div>
         </nav>

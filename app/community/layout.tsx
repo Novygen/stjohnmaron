@@ -1,12 +1,13 @@
-// app/layout.tsx
-import './globals.css';
+// app/community/layout.tsx
 
 import React from 'react';
 
 import type { Metadata } from 'next';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'St. John Maron Maronite Catholic Church',
+  title: 'Community - St. John Maron Maronite Catholic Church',
   description:
     'Official website for St. John Maron Maronite Catholic Church – Where Faith, Tradition, and Community Come Together.',
   icons: { icon: '/favicon.ico' },
@@ -20,7 +21,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen flex flex-col bg-gray-50">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

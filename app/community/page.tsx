@@ -11,7 +11,7 @@ import CommunityFilterBar from '@/components/Community/CommunityFilterBar';
  *    - Provides SEO-friendly title and description for the Community page.
  */
 export const metadata: Metadata = {
-  title: 'St. John Maron – Our Parish Community',
+  title: 'Our Parish Community - St. John Maron Maronite Catholic Church',
   description:
     'Browse and discover our parishioners by industry and specialization.',
 };

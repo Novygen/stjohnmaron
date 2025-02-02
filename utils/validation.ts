@@ -7,6 +7,18 @@ export const submissionSchema = z.object({
     .string()
     .min(2, 'Full Name must be at least 2 characters')
     .regex(/^[a-zA-Z\s.,'-]+$/, 'Full Name contains invalid characters'),
+  yearOfBirth: z
+    .string()
+    .transform((val) => parseInt(val))
+    .refine(
+      (val) =>
+        !isNaN(val) && val >= 1900 && val <= new Date().getFullYear() - 18,
+      {
+        message:
+          'Year of Birth must be a valid year and you must be at least 18 years old',
+      },
+    ),
+  businessName: z.string().optional(),
   preferredName: z
     .string()
     .regex(/^[a-zA-Z\s.,'-]*$/, 'Preferred Name contains invalid characters')
@@ -28,12 +40,12 @@ export const submissionSchema = z.object({
     .refine(
       (file) => {
         if (!file) return true;
-        return file.size <= 5 * 1024 * 1024; // 5MB
+        return file.size <= 5 * 1024 * 1024;
       },
       { message: 'Maximum file size is 5MB' },
     ),
-  industry: z.string().min(1, 'Industry is required'),
-  specialization: z.string().min(1, 'Specialization is required'),
+  industry: z.string().optional(),
+  specialization: z.string().optional(),
   jobTitle: z.string().optional(),
   organization: z.string().optional(),
   email: z.string().email('Invalid email address'),
@@ -60,8 +72,11 @@ export const submissionSchema = z.object({
   profileVisibility: z.enum(['Public', 'Private'], {
     errorMap: () => ({ message: 'Profile Visibility is required' }),
   }),
-  consent: z.boolean().refine((val) => val === true, {
-    message: 'You must consent to publish your information',
+  consentShare: z.boolean().refine((val) => val === true, {
+    message: 'You must consent to share your information with us',
+  }),
+  consentDisplay: z.boolean().refine((val) => val === true, {
+    message: 'You must consent to display your information on the site',
   }),
   subscribeNewsletter: z.boolean().optional(),
 });
