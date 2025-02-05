@@ -1,20 +1,25 @@
 // app/api/admin/v1/requests/[id]/route.ts
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { RequestModel } from '@/models/Request';
 import { Member } from '@/models/Member';
 
-export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
+// Define asynchronous params type
+type tParams = Promise<{ id: string }>;
+
+export async function PATCH(req: NextRequest, { params }: { params: tParams }) {
   try {
-    const params = await req.body;
-    console.log(params);
+    const { id } = await params; // Await the params promise to extract the ID
     await connectToDatabase();
-    const body = await req.body;
+    const body = await req.json();
     const { status } = body; // expecting "approved" or "declined"
 
-    const requestDoc = await RequestModel.findById(params.id);
+    const requestDoc = await RequestModel.findById(id);
     if (!requestDoc) {
-      return res.status(404).json({ message: 'Request not found' });
+      return NextResponse.json(
+        { message: 'Request not found' },
+        { status: 404 },
+      );
     }
 
     // If user wants to approve
@@ -43,8 +48,11 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     requestDoc.status = status;
     await requestDoc.save();
 
-    return res.status(200).json({ message: `Request ${status}` });
+    return NextResponse.json({ message: `Request ${status}` }, { status: 200 });
   } catch (error) {
-    return res.status(400).json({ message: (error as Error).message });
+    return NextResponse.json(
+      { message: (error as Error).message },
+      { status: 400 },
+    );
   }
 }

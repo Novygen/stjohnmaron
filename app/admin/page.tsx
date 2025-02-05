@@ -16,9 +16,13 @@ export default function AdminLoginPage() {
   useEffect(() => {
     // Listen for changes in the Firebase Auth user
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      console.log('User:', user);
       if (user) {
         // User is authenticated, show the dashboard
         router.replace('/admin/dashboard');
+        setLoading(false);
+      } else {
+        // User is not authenticated, continue to show the login page
         setLoading(false);
       }
     });
