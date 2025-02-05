@@ -1,31 +1,35 @@
-// app/api/admin/v1/members/[id]/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { Member } from '@/models/Member';
 
-interface Params {
-  id: string;
-}
+// Define asynchronous params type
+type tParams = Promise<{ id: string }>;
 
-interface ContextParams {
-  params: Params;
-}
-
-export async function GET(req: Request, context: ContextParams) {
-  const { params } = context;
+/**
+ * GET: Retrieves a member by ID.
+ */
+export async function GET(req: NextRequest, { params }: { params: tParams }) {
+  const { id } = await params; // Await the params promise to extract the ID
   try {
+    // Ensure the database connection is established
     await connectToDatabase();
-    const member = await Member.findById(params.id)
-      .populate('industry')
-      .populate('specialization');
+
+    // Query for the member and populate the industry and specialization names
+    const member = await Member.findById(id)
+      .populate('industry', 'name')
+      .populate('specialization', 'name');
+
     if (!member) {
       return NextResponse.json(
         { message: 'Member not found' },
         { status: 404 },
       );
     }
+
     return NextResponse.json(member, { status: 200 });
   } catch (error) {
+    // Log error details if needed and return a clean error message
+    console.error(`GET /members/${id} failed:`, error);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 400 },
@@ -33,22 +37,34 @@ export async function GET(req: Request, context: ContextParams) {
   }
 }
 
-export async function PATCH(req: Request, context: ContextParams) {
-  const { params } = context;
+/**
+ * PATCH: Updates a member by ID.
+ */
+export async function PATCH(req: NextRequest, { params }: { params: tParams }) {
+  const { id } = await params;
   try {
     await connectToDatabase();
+
+    // Read the JSON body containing the update payload
     const body = await req.json();
-    const updatedMember = await Member.findByIdAndUpdate(params.id, body, {
+
+    // Update the member and populate referenced fields in one query
+    const updatedMember = await Member.findByIdAndUpdate(id, body, {
       new: true,
-    });
+    })
+      .populate('industry', 'name')
+      .populate('specialization', 'name');
+
     if (!updatedMember) {
       return NextResponse.json(
         { message: 'Member not found' },
         { status: 404 },
       );
     }
-    return NextResponse.json(updatedMember);
+
+    return NextResponse.json(updatedMember, { status: 200 });
   } catch (error) {
+    console.error(`PATCH /members/${id} failed:`, error);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 400 },
@@ -56,19 +72,29 @@ export async function PATCH(req: Request, context: ContextParams) {
   }
 }
 
-export async function DELETE(req: Request, context: ContextParams) {
-  const { params } = context;
+/**
+ * DELETE: Deletes a member by ID.
+ */
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: tParams },
+) {
+  const { id } = await params;
   try {
     await connectToDatabase();
-    const deleted = await Member.findByIdAndDelete(params.id);
+
+    // Delete the member document by ID
+    const deleted = await Member.findByIdAndDelete(id);
     if (!deleted) {
       return NextResponse.json(
         { message: 'Member not found' },
         { status: 404 },
       );
     }
-    return NextResponse.json({ message: 'Member deleted' });
+
+    return NextResponse.json({ message: 'Member deleted' }, { status: 200 });
   } catch (error) {
+    console.error(`DELETE /members/${id} failed:`, error);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 400 },

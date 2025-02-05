@@ -160,7 +160,9 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
     (async () => {
       try {
         setLoadingIndustries(true);
-        const res = await axios.get('/api/community/industries');
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/community/industries`,
+        );
         setIndustryOptions(res.data);
       } catch (error) {
         console.error('Failed to fetch industries', error);
@@ -179,9 +181,12 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
       }
       try {
         setLoadingSpecs(true);
-        const res = await axios.get('/api/community/specializations', {
-          params: { industryId: selectedIndustry._id },
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations`,
+          {
+            params: { industryId: selectedIndustry._id },
+          },
+        );
         setSpecOptions(res.data);
       } catch (error) {
         console.error('Failed to fetch specializations', error);
@@ -223,7 +228,10 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
         consentDisplay: data.consentDisplay || false,
       };
 
-      await axios.post('/api/community/submit', submissionData);
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/community/submit`,
+        submissionData,
+      );
 
       // On success
       onSuccess();

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// app/api/community/specializations/route.ts
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { Specialization } from '@/models/Specialization';

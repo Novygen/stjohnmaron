@@ -1,51 +1,27 @@
-// app/community/page.tsx
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Metadata } from 'next';
-import { members } from '@/data/members';
 import MemberGrid from '@/components/Community/MemberGrid';
 import CommunityFilterBar from '@/components/Community/CommunityFilterBar';
 
-/**
- * 1. Metadata Configuration
- *    - Provides SEO-friendly title and description for the Community page.
- */
 export const metadata: Metadata = {
   title: 'Our Parish Community - St. John Maron Maronite Catholic Church',
   description:
     'Browse and discover our parishioners by industry and specialization.',
 };
 
-/**
- * 2. Force Dynamic Rendering
- *    - Ensures that the page is rendered dynamically to handle asynchronous params.
- */
 export const dynamic = 'force-dynamic';
 
-/**
- * 3. Define Props Interface
- *    - Both `params` and `searchParams` are Promises as per Next.js 15+.
- *    - For the `/community` route, `params` is typically empty, but we'll include it for completeness.
- */
 interface CommunityPageProps {
-  params: Promise<{ [key: string]: string | string[] | undefined }>;
+  params?: Promise<{ [key: string]: string | string[] | undefined }>;
   searchParams: Promise<{ industry?: string; specialization?: string }>;
 }
 
-/**
- * 4. The Community Page Component
- *    - An asynchronous server component that awaits `searchParams`.
- *    - Filters members based on selected industry and specialization.
- */
 export default async function CommunityPage({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  params,
   searchParams,
 }: CommunityPageProps) {
-  // Await the searchParams Promise to retrieve query parameters
+  // Resolve query parameters for filtering
   const resolvedSearchParams = await searchParams;
-
-  // Extract and sanitize `industry` and `specialization` from searchParams
   const industry =
     typeof resolvedSearchParams.industry === 'string'
       ? resolvedSearchParams.industry
@@ -55,21 +31,56 @@ export default async function CommunityPage({
       ? resolvedSearchParams.specialization
       : '';
 
-  // Filter the members array based on selected criteria
-  const filteredMembers = members.filter((member) => {
+  // Fetch members from API
+  const membersRes = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/v1/members?limit=100`,
+    { next: { revalidate: 0 } },
+  );
+  if (!membersRes.ok) {
+    throw new Error('Failed to fetch members');
+  }
+  const membersJson = await membersRes.json();
+  const members = membersJson.data;
+
+  // Filter members based on the query parameters (matching by ID)
+  const filteredMembers = members.filter((member: any) => {
     let matchesIndustry = true;
     let matchesSpecialization = true;
-
     if (industry) {
       matchesIndustry = member.industry === industry;
     }
-
     if (specialization) {
       matchesSpecialization = member.specialization === specialization;
     }
-
     return matchesIndustry && matchesSpecialization;
   });
+
+  // Fetch industries from API (returns an array of objects with _id and name)
+  const industriesRes = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/community/industries`,
+    { next: { revalidate: 0 } },
+  );
+  if (!industriesRes.ok) {
+    throw new Error('Failed to fetch industries');
+  }
+  const industries = await industriesRes.json();
+
+  // Fetch specializations from API.
+  // If an industry is selected, filter specializations server-side by passing its ID.
+  const specializationsUrl = industry
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations?industryId=${industry}`
+    : `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations`;
+  const specializationsRes = await fetch(specializationsUrl, {
+    next: { revalidate: 0 },
+  });
+  if (!specializationsRes.ok) {
+    throw new Error('Failed to fetch specializations');
+  }
+  const specializations = await specializationsRes.json();
+
+  console.log('Members Data:', members);
+  console.log('Industries Data:', industries);
+  console.log('Specializations Data:', specializations);
 
   return (
     <section
@@ -89,13 +100,13 @@ export default async function CommunityPage({
         </p>
       </header>
 
-      {/* Community Filter Bar */}
       <CommunityFilterBar
         defaultIndustry={industry}
         defaultSpecialization={specialization}
+        industries={industries}
+        specializations={specializations}
       />
 
-      {/* Member Grid */}
       <MemberGrid members={filteredMembers} />
     </section>
   );

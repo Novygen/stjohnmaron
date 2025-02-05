@@ -1,34 +1,51 @@
-// components/Community/CommunityFilterBar.tsx
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { industries, industrySpecializations } from '@/data/members';
+
+interface Industry {
+  _id: string;
+  name: string;
+}
+
+interface Specialization {
+  _id: string;
+  name: string;
+  industry: string; // references the industry _id
+}
 
 interface CommunityFilterBarProps {
   defaultIndustry?: string;
   defaultSpecialization?: string;
+  industries: Industry[];
+  specializations: Specialization[];
 }
 
 export default function CommunityFilterBar({
   defaultIndustry,
   defaultSpecialization,
+  industries,
+  specializations,
 }: CommunityFilterBarProps) {
   const router = useRouter();
   const [industry, setIndustry] = useState(defaultIndustry || '');
   const [specialization, setSpecialization] = useState(
     defaultSpecialization || '',
   );
-  const [availableSpecs, setAvailableSpecs] = useState<string[]>([]);
+  const [availableSpecs, setAvailableSpecs] = useState<Specialization[]>([]);
 
   useEffect(() => {
-    if (industry && industrySpecializations[industry]) {
-      setAvailableSpecs(industrySpecializations[industry]);
+    if (industry) {
+      // Filter specializations matching the selected industry by its _id
+      const specs = specializations.filter(
+        (spec) => spec.industry === industry,
+      );
+      setAvailableSpecs(specs);
     } else {
       setAvailableSpecs([]);
       setSpecialization('');
     }
-  }, [industry]);
+  }, [industry, specializations]);
 
   const handleFilter = () => {
     let url = '/community';
@@ -64,8 +81,8 @@ export default function CommunityFilterBar({
           >
             <option value="">All Industries</option>
             {industries.map((ind) => (
-              <option key={ind} value={ind}>
-                {ind}
+              <option key={ind._id} value={ind._id}>
+                {ind.name}
               </option>
             ))}
           </select>
@@ -86,8 +103,8 @@ export default function CommunityFilterBar({
           >
             <option value="">All Specializations</option>
             {availableSpecs.map((spec) => (
-              <option key={spec} value={spec}>
-                {spec}
+              <option key={spec._id} value={spec._id}>
+                {spec.name}
               </option>
             ))}
           </select>

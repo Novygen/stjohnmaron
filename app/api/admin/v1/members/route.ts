@@ -17,6 +17,8 @@ export async function GET(req: Request) {
 
     const total = await Member.countDocuments();
     const data = await Member.find({})
+      .populate('industry', 'name') // populate industry with its name field
+      .populate('specialization', 'name') // populate specialization with its name field
       .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);
@@ -30,6 +32,7 @@ export async function GET(req: Request) {
       },
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: (error as Error).message },
       { status: 400 },

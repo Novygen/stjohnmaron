@@ -1,3 +1,4 @@
+// app/api/community/industries/route.ts
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { Industry } from '@/models/Industry';
