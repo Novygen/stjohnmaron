@@ -45,7 +45,6 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@eslint/eslintrc": "^3",
     "@eslint/js": "^9.19.0",
-    "@types/firebase": "^3.2.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
