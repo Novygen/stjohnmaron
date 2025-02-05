@@ -3,10 +3,8 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { Member } from '@/models/Member';
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } },
-) {
+export async function GET(req: Request, context: { params: { id: string } }) {
+  const { params } = context;
   try {
     await connectToDatabase();
     const member = await Member.findById(params.id)
@@ -27,10 +25,8 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } },
-) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
+  const { params } = context;
   try {
     await connectToDatabase();
     const body = await req.json();
@@ -54,8 +50,9 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  context: { params: { id: string } },
 ) {
+  const { params } = context;
   try {
     await connectToDatabase();
     const deleted = await Member.findByIdAndDelete(params.id);

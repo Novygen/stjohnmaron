@@ -4,11 +4,9 @@ import { connectToDatabase } from '@/lib/mongoose';
 import { RequestModel } from '@/models/Request';
 import { Member } from '@/models/Member';
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } },
-) {
+export async function PATCH(req: Request, context: { params: { id: string } }) {
   try {
+    const { params } = context;
     await connectToDatabase();
     const body = await req.json();
     const { status } = body; // expecting "approved" or "declined"
