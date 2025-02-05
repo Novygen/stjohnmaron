@@ -277,7 +277,7 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
       {/* Year of Birth (Optional) */}
       <div className="mb-4">
         <label htmlFor="yearOfBirth" className="block font-medium mb-1">
-          Year of Birth (optional but recommended)
+          Year of Birth
         </label>
         <input
           id="yearOfBirth"
