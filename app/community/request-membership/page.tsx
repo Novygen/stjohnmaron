@@ -248,26 +248,6 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
         Submit Your Information
       </h2>
 
-      {/* Year of Birth (Optional) */}
-      <div className="mb-4">
-        <label htmlFor="yearOfBirth" className="block font-medium mb-1">
-          Year of Birth (optional)
-        </label>
-        <input
-          id="yearOfBirth"
-          type="number"
-          {...register('yearOfBirth')}
-          className={`border w-full px-3 py-2 rounded ${
-            errors.yearOfBirth ? 'border-red-500' : 'border-gray-300'
-          }`}
-        />
-        {errors.yearOfBirth && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.yearOfBirth.message}
-          </p>
-        )}
-      </div>
-
       {/* Full Name */}
       <div className="mb-4">
         <label htmlFor="fullName" className="block font-medium mb-1">
@@ -283,6 +263,26 @@ function SubmissionForm({ onSuccess }: { onSuccess: () => void }) {
         />
         {errors.fullName && (
           <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+        )}
+      </div>
+
+      {/* Year of Birth (Optional) */}
+      <div className="mb-4">
+        <label htmlFor="yearOfBirth" className="block font-medium mb-1">
+          Year of Birth (optional but recommended)
+        </label>
+        <input
+          id="yearOfBirth"
+          type="number"
+          {...register('yearOfBirth')}
+          className={`border w-full px-3 py-2 rounded ${
+            errors.yearOfBirth ? 'border-red-500' : 'border-gray-300'
+          }`}
+        />
+        {errors.yearOfBirth && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.yearOfBirth.message}
+          </p>
         )}
       </div>
 

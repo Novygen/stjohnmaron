@@ -4,7 +4,15 @@ import { connectToDatabase } from '@/lib/mongoose';
 import { RequestModel } from '@/models/Request';
 import { Member } from '@/models/Member';
 
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+interface Params {
+  id: string;
+}
+
+interface ContextParams {
+  params: Params;
+}
+
+export async function PATCH(req: Request, context: ContextParams) {
   try {
     const { params } = context;
     await connectToDatabase();

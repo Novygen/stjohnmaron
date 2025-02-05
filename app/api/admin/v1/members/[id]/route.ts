@@ -3,7 +3,15 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import { Member } from '@/models/Member';
 
-export async function GET(req: Request, context: { params: { id: string } }) {
+interface Params {
+  id: string;
+}
+
+interface ContextParams {
+  params: Params;
+}
+
+export async function GET(req: Request, context: ContextParams) {
   const { params } = context;
   try {
     await connectToDatabase();
@@ -25,7 +33,7 @@ export async function GET(req: Request, context: { params: { id: string } }) {
   }
 }
 
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(req: Request, context: ContextParams) {
   const { params } = context;
   try {
     await connectToDatabase();
@@ -48,10 +56,7 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
   }
 }
 
-export async function DELETE(
-  req: Request,
-  context: { params: { id: string } },
-) {
+export async function DELETE(req: Request, context: ContextParams) {
   const { params } = context;
   try {
     await connectToDatabase();
