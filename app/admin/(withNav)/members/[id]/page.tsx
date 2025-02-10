@@ -38,7 +38,7 @@ export default function ViewMemberPage() {
 
   async function fetchMember(memberId: string) {
     try {
-      const data = await dataService.getMember(memberId);
+      const data = await dataService.getMember({ id: memberId });
       setMemberData(data);
     } catch (error) {
       console.error('Failed to fetch member:', error);
