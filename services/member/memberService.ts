@@ -7,7 +7,7 @@ export async function getMembers(
   params: GetMembersParams,
 ): Promise<MembersAPI> {
   const res = await fetch(
-    `${baseUrl}/api/admin/v1/members?page=${params.page}&limit=${params.limit}`,
+    `${baseUrl}/api/admin/v1/members?page=${params.page}&limit=${params.limit}${params.search ? `&search=${params.search}` : ''}${params.sortField ? `&sortField=${params.sortField}` : ''}${params.sortOrder ? `&sortOrder=${params.sortOrder}` : ''}`,
   );
   if (!res.ok) throw new Error('Failed to fetch members');
   return res.json();

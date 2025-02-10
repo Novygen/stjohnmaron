@@ -16,9 +16,16 @@ export async function GET(req: NextRequest, { params }: { params: tParams }) {
 
     // Query for the member and populate the industry and specialization names
     console.log('id:', id);
-    const member = await Member.findById(id);
-    // .populate('industry', 'name')
-    // .populate('specialization', 'name');
+    const member = await Member.findById(id).populate([
+      {
+        path: 'Industry',
+        strictPopulate: false,
+      },
+      {
+        path: 'Specialization',
+        strictPopulate: false,
+      },
+    ]);
 
     if (!member) {
       return NextResponse.json(

@@ -12,13 +12,32 @@ export async function GET(req: Request) {
     const limit = parseInt(searchParams.get('limit') || '10', 10);
     const sortField = searchParams.get('sortField') || 'fullName';
     const sortOrder = searchParams.get('sortOrder') === 'asc' ? -1 : 1;
+    const searchQuery = searchParams.get('search') || '';
 
     const skip = (page - 1) * limit;
 
-    const total = await Member.countDocuments();
-    const data = await Member.find({})
-      // .populate('Industry', 'name') // populate industry with its name field
-      // .populate('Specialization', 'name') // populate specialization with its name field
+    const searchCriteria = searchQuery
+      ? {
+          $or: [
+            { fullName: { $regex: searchQuery, $options: 'i' } },
+            { email: { $regex: searchQuery, $options: 'i' } },
+            // Add other fields to search here
+          ],
+        }
+      : {};
+
+    const total = await Member.countDocuments(searchCriteria);
+    const data = await Member.find(searchCriteria)
+      .populate([
+        {
+          path: 'Industry',
+          strictPopulate: false,
+        },
+        {
+          path: 'Specialization',
+          strictPopulate: false,
+        },
+      ])
       .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);
