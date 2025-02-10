@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // app/api/admin/v1/requests/route.ts
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';

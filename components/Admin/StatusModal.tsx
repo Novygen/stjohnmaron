@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // components/admin/StatusModal.tsx
 'use client';
 

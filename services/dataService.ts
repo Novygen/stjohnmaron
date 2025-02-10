@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Member, MembersAPI } from '@/data/member';
 import { GetMemberParams, GetMembersParams } from './member/member.interfaces';
 import { getMembers, getMember, updateMember } from './member/memberService';
