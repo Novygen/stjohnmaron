@@ -1,5 +1,6 @@
 // app/layout.tsx
 import './globals.css';
+import { Providers } from '@/app/providers';
 
 import React from 'react';
 
@@ -20,7 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
