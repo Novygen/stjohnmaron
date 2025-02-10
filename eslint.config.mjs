@@ -16,7 +16,11 @@ export default [
       },
     }
   },
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  {
+    plugins: {
+      js: pluginJs,
+      react: pluginReact,
+      '@typescript-eslint': tseslint.plugin,
+    }
+  },
 ];

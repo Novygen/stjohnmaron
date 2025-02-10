@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useRouter } from 'next/navigation';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 interface SidebarItemProps {
   item: {
     path: string;
-    icon: any;
+    icon: React.ReactNode;
     name: string;
   };
   pathname: string;
