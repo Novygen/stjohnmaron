@@ -5,24 +5,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom color variables derived from the existing site design */
+/* Global CSS variables */
 :root {
   --color-background: #f5f5f5;
-  --color-header-bg: #781f1f; /* Example maroon color */
+  --color-header-bg: #781f1f;
   --color-header-text: #ffffff;
   --color-text: #333333;
-  --color-accent: #b98b4e; /* Example golden accent */
-  --color-link-hover: #d3a75a; /* Lighter accent for hover states */
+  --color-accent: #b98b4e;
+  --color-link-hover: #d3a75a;
+
+  /* Admin-specific colors */
+  --color-admin-bg: #f7fafc;
+  --color-admin-sidebar: #ffffff;
+  --color-admin-header: #2d3748;
+  --color-admin-text: #4a5568;
 }
 
-/* You can add more variables as needed */
-
-/* Example global styles */
 body {
   font-family: sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
-  margin: 0; /* remove default browser padding/margin */
+  margin: 0;
   box-sizing: border-box;
 }
 

@@ -15,9 +15,10 @@ export async function GET(req: NextRequest, { params }: { params: tParams }) {
     await connectToDatabase();
 
     // Query for the member and populate the industry and specialization names
-    const member = await Member.findById(id)
-      .populate('industry', 'name')
-      .populate('specialization', 'name');
+    console.log('id:', id);
+    const member = await Member.findById(id);
+    // .populate('industry', 'name')
+    // .populate('specialization', 'name');
 
     if (!member) {
       return NextResponse.json(

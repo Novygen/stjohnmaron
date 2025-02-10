@@ -10,15 +10,15 @@ export async function GET(req: Request) {
 
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
-    const sortField = searchParams.get('sortField') || 'createdAt';
-    const sortOrder = searchParams.get('sortOrder') === 'desc' ? -1 : 1;
+    const sortField = searchParams.get('sortField') || 'fullName';
+    const sortOrder = searchParams.get('sortOrder') === 'asc' ? -1 : 1;
 
     const skip = (page - 1) * limit;
 
     const total = await Member.countDocuments();
     const data = await Member.find({})
-      .populate('industry', 'name') // populate industry with its name field
-      .populate('specialization', 'name') // populate specialization with its name field
+      // .populate('Industry', 'name') // populate industry with its name field
+      // .populate('Specialization', 'name') // populate specialization with its name field
       .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);
