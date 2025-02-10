@@ -14,7 +14,7 @@ export async function getMembers(
 }
 
 export async function getMember(params: GetMemberParams): Promise<Member> {
-  const res = await fetch(`${baseUrl}/api/admin/v1/members/${params}`);
+  const res = await fetch(`${baseUrl}/api/admin/v1/members/${params.id}`);
   if (!res.ok) throw new Error('Failed to fetch members');
   return res.json();
 }
