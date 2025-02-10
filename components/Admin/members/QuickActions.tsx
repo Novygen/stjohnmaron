@@ -13,9 +13,9 @@ export default function QuickActions({
   onView,
 }: QuickActionsProps) {
   return (
-    <div className="flex flex-row gap-1">
+    <div className="flex flex-row justify-around md:gap-1">
       <button
-        className="block text-left px-4 py-2 text-gray-700 hover:bg-gray-100 z-50"
+        className="hidden md:block text-left px-4 py-2 text-gray-700 hover:bg-gray-100 z-50"
         onClick={onEdit}
       >
         <FaPen className="inline-block mr-2" />

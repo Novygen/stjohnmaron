@@ -2,21 +2,20 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMenu } from 'react-icons/fi';
+import { useSwipeable } from 'react-swipeable';
 import SidebarItem from './SidebarItem';
 
 export default function MobileSidebar({ menuItems }: { menuItems: any[] }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed top-4 left-4 bg-purple-600 text-white p-2 rounded-full shadow-lg z-50"
-      >
-        <FiMenu size={24} />
-      </button>
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setIsOpen(false),
+    onSwipedRight: () => setIsOpen(true),
+    trackMouse: true,
+  });
 
+  return (
+    <div {...handlers} className="fixed inset-0 z-50">
       {isOpen && (
         <motion.div
           initial={{ x: -300 }}
@@ -40,6 +39,6 @@ export default function MobileSidebar({ menuItems }: { menuItems: any[] }) {
           </nav>
         </motion.div>
       )}
-    </>
+    </div>
   );
 }

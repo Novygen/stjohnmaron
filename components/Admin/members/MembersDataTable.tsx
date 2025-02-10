@@ -73,15 +73,17 @@ export default function MembersDataTable() {
 
   return (
     <div
-      className={`relative transition-all ${editMember ? 'pr-[450px]' : ''} z-30`}
+      className={`relative transition-all w-full ${editMember ? 'pr-[450px]' : ''} z-30`}
     >
       <div className="flex justify-between items-center mb-4 bg-white rounded-lg shadow-md p-4">
-        <h2 className="text-2xl font-semibold ">
+        <h2 className="md:text-2xl font-semibold ">
           Members (
           {`${membersData.data.length} / ${membersData.pagination.total}`})
         </h2>
         <div className="flex space-x-4">
-          <FilterBox filterText={searchText} setFilterText={setSearchText} />
+          <span className="hidden md:block">
+            <FilterBox filterText={searchText} setFilterText={setSearchText} />
+          </span>
           <button
             onClick={handleSortOrderChange}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg text-center"
