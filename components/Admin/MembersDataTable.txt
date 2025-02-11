@@ -1,0 +1,71 @@
+// components/admin/MembersDataTable.tsx
+"use client";
+
+import React, { useState } from "react";
+import { Member } from "@/data/member";
+import DataTable, { Column } from "./DataTable";
+import QuickActions from "./QuickActions";
+import EditMemberPanel from "./EditMemberPanel";
+import StatusModal from "./StatusModal";
+
+interface MembersDataTableProps {
+  members: Member[];
+}
+
+export default function MembersDataTable({ members }: MembersDataTableProps) {
+  const [editMember, setEditMember] = useState<Member | null>(null);
+  const [showStatusModal, setShowStatusModal] = useState<{ member: Member } | null>(null);
+  const [localMembers, setLocalMembers] = useState<Member[]>(members);
+
+  const columns: Column<Member>[] = [
+    { header: "Full Name", accessor: "fullName", sortable: true, filterable: true },
+    { header: "Email", accessor: "email", sortable: true, filterable: true },
+    { header: "Industry", accessor: "industry", sortable: true, filterable: true },
+    { header: "Specialization", accessor: "specialization", sortable: true, filterable: true },
+  ];
+
+  const handleEdit = (member: Member) => {
+    setEditMember(member);
+  };
+
+  const handleStatus = (member: Member) => {
+    setShowStatusModal({ member });
+  };
+
+  const renderActions = (member: Member) => (
+    <QuickActions
+      onEdit={() => handleEdit(member)}
+      onStatus={() => handleStatus(member)}
+    />
+  );
+
+  const handleMemberUpdated = (updatedMember: Member) => {
+    setLocalMembers((prev) => prev.map((m) => (m._id === updatedMember._id ? updatedMember : m)));
+  };
+
+  const handleStatusUpdated = (memberId: string, newStatus: string) => {
+    console.log(`Member ${memberId} status updated to ${newStatus}`);
+  };
+
+  return (
+    <div className="relative">
+      <DataTable columns={columns} data={localMembers} renderRowActions={renderActions} />
+      {editMember && (
+        <EditMemberPanel
+          member={editMember}
+          onClose={() => setEditMember(null)}
+          onUpdated={handleMemberUpdated}
+        />
+      )}
+      {showStatusModal && (
+        <StatusModal
+          memberId={showStatusModal.member._id}
+          currentStatus="Public"
+          mode="member"
+          onClose={() => setShowStatusModal(null)}
+          onStatusUpdated={(newStatus) => handleStatusUpdated(showStatusModal.member._id, newStatus)}
+        />
+      )}
+    </div>
+  );
+}

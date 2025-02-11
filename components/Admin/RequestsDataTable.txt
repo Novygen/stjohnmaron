@@ -1,0 +1,56 @@
+// components/admin/RequestsDataTable.tsx
+"use client";
+
+import React, { useState } from "react";
+import { Member } from "@/data/member"; // Using the same interface for simplicity
+import DataTable, { Column } from "./DataTable";
+import QuickActions from "./QuickActions";
+import StatusModal from "./StatusModal";
+
+interface RequestsDataTableProps {
+  requests: Member[];
+}
+
+export default function RequestsDataTable({ requests }: RequestsDataTableProps) {
+  const [localRequests] = useState<Member[]>(requests);
+  const [showStatusModal, setShowStatusModal] = useState<{ request: Member } | null>(null);
+
+  const columns: Column<Member>[] = [
+    { header: "Full Name", accessor: "fullName", sortable: true, filterable: true },
+    { header: "Email", accessor: "email", sortable: true, filterable: true },
+    { header: "Industry", accessor: "industry", sortable: true, filterable: true },
+    { header: "Specialization", accessor: "specialization", sortable: true, filterable: true },
+    { header: "Status", accessor: "shortBio", sortable: false, filterable: false }, // Replace with a real status field if available
+  ];
+
+  const handleStatus = (request: Member) => {
+    // Only allow status change if the request is pending (dummy condition)
+      setShowStatusModal({ request });
+  };
+
+  const renderActions = (request: Member) => (
+    <QuickActions
+      onEdit={() => {}}
+      onStatus={() => handleStatus(request)}
+    />
+  );
+
+  const handleStatusUpdated = (requestId: string, newStatus: string) => {
+    console.log(`Request ${requestId} updated to ${newStatus}`);
+  };
+
+  return (
+    <div className="relative">
+      <DataTable columns={columns} data={localRequests} renderRowActions={renderActions} />
+      {showStatusModal && (
+        <StatusModal
+          memberId={showStatusModal.request._id}
+          currentStatus="Pending"
+          mode="request"
+          onClose={() => setShowStatusModal(null)}
+          onStatusUpdated={(newStatus) => handleStatusUpdated(showStatusModal.request._id, newStatus)}
+        />
+      )}
+    </div>
+  );
+}

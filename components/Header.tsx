@@ -19,12 +19,8 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6">
-          <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
           <Link href="/community/request-membership">Join Community</Link>
           <Link href="/community">Community</Link>
-          <Link href="/ministries">Ministries</Link>
-          <Link href="/contact">Contact</Link>
         </nav>
 
         {/* Mobile Menu Button */}
@@ -41,12 +37,6 @@ export default function Header() {
       {mobileNavOpen && (
         <nav className="md:hidden bg-gray-100 py-2">
           <div className="flex flex-col gap-2 px-4">
-            <Link href="/" onClick={() => setMobileNavOpen(false)}>
-              Home
-            </Link>
-            <Link href="/about" onClick={() => setMobileNavOpen(false)}>
-              About
-            </Link>
             <Link
               href="/community/request-membership"
               onClick={() => setMobileNavOpen(false)}
@@ -55,12 +45,6 @@ export default function Header() {
             </Link>
             <Link href="/community" onClick={() => setMobileNavOpen(false)}>
               Community
-            </Link>
-            <Link href="/ministries" onClick={() => setMobileNavOpen(false)}>
-              Ministries
-            </Link>
-            <Link href="/contact" onClick={() => setMobileNavOpen(false)}>
-              Contact
             </Link>
           </div>
         </nav>

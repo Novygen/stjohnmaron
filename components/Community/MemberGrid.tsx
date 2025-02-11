@@ -20,7 +20,7 @@ export default function MemberGrid({ members }: MemberGridProps) {
     >
       <AnimatePresence>
         {members.map((member) => (
-          <MemberCard key={member.id} member={member} />
+          <MemberCard key={member._id} member={member} />
         ))}
       </AnimatePresence>
     </motion.div>
