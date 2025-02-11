@@ -1,16 +1,23 @@
 import { Member, MembersAPI } from '@/data/member';
 import { GetMemberParams, GetMembersParams } from './member/member.interfaces';
 import { getMembers, getMember, updateMember } from './member/memberService';
+import {
+  GetRequestParams,
+  GetRequestsParams,
+} from './request/request.interfaces';
+import { RequestsAPI, Request } from '@/data/request';
+import { getRequest, getRequests } from './request/requestService';
 
 export interface IDataService {
   getMembers: (params: GetMembersParams) => Promise<MembersAPI>;
   getMember: (params: GetMemberParams) => Promise<Member>;
-  getRequests: () => Promise<Member[]>; // Assume membership requests follow the same interface
-  updateMember: (id: string, data: Partial<Member>) => Promise<Member>;
-  updateRequestStatus: (
-    id: string,
-    status: 'Approved' | 'Rejected',
-  ) => Promise<any>;
+  getRequests: (params: GetRequestsParams) => Promise<RequestsAPI>;
+  getRequest: (params: GetRequestParams) => Promise<Request>;
+  // updateMember: (id: string, data: Partial<Member>) => Promise<Member>;
+  // updateRequestStatus: (
+  //   id: string,
+  //   status: 'Approved' | 'Rejected',
+  // ) => Promise<any>;
 }
 
 class DataService implements IDataService {
@@ -30,10 +37,12 @@ class DataService implements IDataService {
     return getMember(params);
   }
 
-  async getRequests(): Promise<Member[]> {
-    const res = await fetch(`${this.baseUrl}/api/admin/v1/requests`);
-    if (!res.ok) throw new Error('Failed to fetch requests');
-    return res.json();
+  async getRequests(params: GetRequestsParams): Promise<RequestsAPI> {
+    return getRequests(params);
+  }
+
+  async getRequest(params: GetRequestParams): Promise<Request> {
+    return getRequest(params);
   }
 
   async updateMember(id: string, data: Partial<Member>): Promise<Member> {

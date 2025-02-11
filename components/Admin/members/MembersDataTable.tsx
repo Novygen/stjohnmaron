@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Member, MembersAPI } from '@/data/member';
 import MemberRow from '@/components/Admin/members/MemberRow';
 import EditMemberPanel from '@/components/Admin/members/EditMemberPanel';
-import PaginationControls from '@/components/Admin/members/PaginationControls';
+import PaginationControls from '@/components/Admin/PaginationControls';
 import FilterBox from '@/components/Admin/members/FilterBox';
 import DropdownFilter from '@/components/Admin/members/DropdownFilter';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';

@@ -15,7 +15,6 @@ export async function GET(req: NextRequest, { params }: { params: tParams }) {
     await connectToDatabase();
 
     // Query for the member and populate the industry and specialization names
-    console.log('id:', id);
     const member = await Member.findById(id).populate([
       {
         path: 'Industry',

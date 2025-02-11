@@ -1,11 +1,13 @@
-// app/admin/requests/page.tsx
-import React from 'react';
-// import { dataServiceFactory } from "@/services/dataService";
-// import RequestsDataTable from "@/components/Admin/RequestsDataTable";
+// app/admin/members/page.tsx
+'use client';
 
-export default async function RequestsPage() {
-  // const dataService = dataServiceFactory();
-  // const requests = await dataService.getRequests();
-  // return <RequestsDataTable requests={requests} />;
-  return <></>;
+import RequestsDataTable from '@/components/Admin/requests/RequestsDataTable';
+import React, { Suspense } from 'react';
+
+export default async function MembersPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RequestsDataTable />
+    </Suspense>
+  );
 }

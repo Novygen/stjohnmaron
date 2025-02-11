@@ -10,19 +10,34 @@ export async function GET(req: Request) {
 
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
-    const statusFilter = searchParams.get('status'); // e.g. pending, approved, declined
-    const sortField = searchParams.get('sortField') || 'createdAt';
-    const sortOrder = searchParams.get('sortOrder') === 'desc' ? -1 : 1;
-
-    const query: any = {};
-    if (statusFilter) {
-      query.status = statusFilter; // e.g. ?status=pending
-    }
+    const sortField = searchParams.get('sortField') || 'fullName';
+    const sortOrder = searchParams.get('sortOrder') === 'asc' ? -1 : 1;
+    const searchQuery = searchParams.get('search') || '';
 
     const skip = (page - 1) * limit;
 
-    const total = await RequestModel.countDocuments(query);
-    const data = await RequestModel.find(query)
+    const searchCriteria = searchQuery
+      ? {
+          $or: [
+            { fullName: { $regex: searchQuery, $options: 'i' } },
+            { email: { $regex: searchQuery, $options: 'i' } },
+            // Add other fields to search here
+          ],
+        }
+      : {};
+
+    const total = await RequestModel.countDocuments(searchCriteria);
+    const data = await RequestModel.find(searchCriteria)
+      .populate([
+        {
+          path: 'Industry',
+          strictPopulate: false,
+        },
+        {
+          path: 'Specialization',
+          strictPopulate: false,
+        },
+      ])
       .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);
