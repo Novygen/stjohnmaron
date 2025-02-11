@@ -15,7 +15,10 @@ export default function MobileSidebar({ menuItems }: { menuItems: any[] }) {
   });
 
   return (
-    <div {...handlers} className="fixed inset-0 z-50">
+    <div
+      {...handlers}
+      className={`fixed inset-0 ${isOpen ? `w-full z-50` : `w-12 z-30`}`}
+    >
       {isOpen && (
         <motion.div
           initial={{ x: -300 }}
