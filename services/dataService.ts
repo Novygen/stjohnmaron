@@ -13,11 +13,11 @@ export interface IDataService {
   getMember: (params: GetMemberParams) => Promise<Member>;
   getRequests: (params: GetRequestsParams) => Promise<RequestsAPI>;
   getRequest: (params: GetRequestParams) => Promise<Request>;
-  // updateMember: (id: string, data: Partial<Member>) => Promise<Member>;
-  // updateRequestStatus: (
-  //   id: string,
-  //   status: 'Approved' | 'Rejected',
-  // ) => Promise<any>;
+  updateMember: (id: string, data: Partial<Member>) => Promise<Member>;
+  updateRequestStatus: (
+    id: string,
+    status: 'Approved' | 'Rejected',
+  ) => Promise<any>;
 }
 
 class DataService implements IDataService {
