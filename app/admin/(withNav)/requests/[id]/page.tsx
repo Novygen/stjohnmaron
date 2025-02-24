@@ -15,7 +15,7 @@ export default function ViewRequestPage() {
   const params = useParams();
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [requestData, setRequestData] = useState<Request | null>(null);
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('details');
 
   const dataService = dataServiceFactory();
 
@@ -59,7 +59,7 @@ export default function ViewRequestPage() {
 
       {/* Main Content Area */}
       <div className="flex-1 bg-white rounded-lg shadow p-6">
-        <RequestTabs onTabChange={handleTabChange} />
+        <RequestTabs onTabChange={handleTabChange} activeTab={activeTab} />
         <RequestContent request={requestData} tab={activeTab} />
       </div>
     </div>

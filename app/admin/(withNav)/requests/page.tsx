@@ -1,13 +1,12 @@
-// app/admin/members/page.tsx
 'use client';
 
-import RequestsDataTable from '@/components/Admin/requests/RequestsDataTable';
 import React, { Suspense } from 'react';
+import MembershipRequestsList from '@/components/Admin/requests/MembershipRequestsList';
 
-export default async function MembersPage() {
+export default function MembershipRequestsPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <RequestsDataTable />
+    <Suspense fallback={<div>Loading membership requests...</div>}>
+      <MembershipRequestsList />
     </Suspense>
   );
 }

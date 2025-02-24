@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 interface PaginationControlsProps {
@@ -12,23 +14,23 @@ export default function PaginationControls({
   onPageChange,
 }: PaginationControlsProps) {
   return (
-    <div className="flex items-center justify-end py-4 gap-5">
+    <div className="flex justify-center items-center space-x-2 mt-4">
       <button
-        className={`${currentPage === 1 ? ` hidden` : `block`} px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300`}
-        onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        onClick={() => onPageChange(currentPage - 1)}
+        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
       >
-        ← Prev
+        Prev
       </button>
-      <span className="text-sm text-gray-700">
+      <span>
         Page {currentPage} of {totalPages}
       </span>
       <button
-        className={`${currentPage === totalPages ? ` hidden` : `block`} px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300`}
-        onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        onClick={() => onPageChange(currentPage + 1)}
+        className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
       >
-        Next →
+        Next
       </button>
     </div>
   );

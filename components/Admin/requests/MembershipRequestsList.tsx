@@ -3,17 +3,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Request, RequestsAPI } from '@/data/request';
+import RequestRow from '@/components/Admin/requests/RequestRow';
+import PaginationControls from '@/components/Admin/requests/PaginationControls';
+import FilterBox from '@/components/Admin/requests/FilterBox';
+import DropdownFilter from '@/components/Admin/requests/DropdownFilter';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { dataServiceFactory } from '@/services/dataService';
 import { filterRequests, sortRequests } from '@/utils/requestsUtils';
-import DropdownFilter from './DropdownFilter';
-import RequestRow from './RequestRow';
-import PaginationControls from '../PaginationControls';
-import EditRequestPanel from './EditRequestPanel';
-import FilterBox from './FilterBox';
 
-export default function RequestsDataTable() {
-  const [editRequest, setEditRequest] = useState<Request | null>(null);
+export default function MembershipRequestsList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [statusFilter, setStatusFilter] = useState<
@@ -22,7 +20,6 @@ export default function RequestsDataTable() {
   const [searchText, setSearchText] = useState('');
   const itemsPerPage = 10;
   const [requestsData, setRequestsData] = useState<RequestsAPI | null>(null);
-
   const router = useRouter();
 
   const fetchRequests = useCallback(
@@ -32,13 +29,12 @@ export default function RequestsDataTable() {
           page: page.toString(),
           limit: limit.toString(),
           search: search,
-          sortField: 'fullName',
+          sortField: 'personal_details.first_name',
           sortOrder: sortOrder,
         });
-        console.log('Fetched requests data:', data);
         setRequestsData(data);
       } catch (error) {
-        console.error('Failed to fetch requests:', error);
+        console.error('Failed to fetch membership requests:', error);
       }
     },
     [],
@@ -46,14 +42,14 @@ export default function RequestsDataTable() {
 
   useEffect(() => {
     fetchRequests(currentPage, itemsPerPage, searchText, sortOrder);
-  }, [currentPage, itemsPerPage, searchText, fetchRequests]);
+  }, [currentPage, itemsPerPage, searchText, sortOrder, fetchRequests]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
   const handleSortOrderChange = () => {
-    setSortOrder((prevSortOrder) => (prevSortOrder === 'asc' ? 'desc' : 'asc'));
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
   };
 
   if (!requestsData) {
@@ -68,12 +64,10 @@ export default function RequestsDataTable() {
   const sortedRequests = sortRequests(filteredRequests, sortOrder);
 
   return (
-    <div
-      className={`relative transition-all w-full ${editRequest ? 'pr-[450px]' : ''} z-30`}
-    >
+    <div className="relative transition-all w-full z-30">
       <div className="flex justify-between items-center mb-4 bg-white rounded-lg shadow-md p-4">
         <h2 className="md:text-2xl font-semibold">
-          Requests (
+          Membership Requests (
           {`${requestsData.data.length} / ${requestsData.pagination.total}`})
         </h2>
         <div className="flex space-x-4">
@@ -82,9 +76,9 @@ export default function RequestsDataTable() {
           </span>
           <button
             onClick={handleSortOrderChange}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg text-center"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
           >
-            Sort
+            Sort{' '}
             {sortOrder === 'asc' ? (
               <FaArrowUp className="inline ml-2" />
             ) : (
@@ -97,37 +91,20 @@ export default function RequestsDataTable() {
           />
         </div>
       </div>
-      {/* Data Table */}
       <div className="divide-y divide-gray-200">
         {sortedRequests.map((request: Request) => (
           <RequestRow
             key={request._id}
             request={request}
-            onEdit={() => setEditRequest(request)}
-            onView={() => {
-              router.push(`./requests/${request._id}`);
-            }}
-            onStatus={function (): void {
-              throw new Error('Function not implemented.');
-            }}
+            onView={() => router.push(`/admin/requests/${request._id}`)}
           />
         ))}
       </div>
-      {/* Pagination */}
       <PaginationControls
         currentPage={currentPage}
         totalPages={Math.ceil(requestsData.pagination.total / itemsPerPage)}
         onPageChange={handlePageChange}
       />
-      {/* Side Panel for Editing */}
-      {editRequest && (
-        <EditRequestPanel
-          request={editRequest}
-          onClose={() => setEditRequest(null)}
-          onUpdated={() => setEditRequest(null)}
-          className="absolute top-0 -right-3 w-[450px] h-auto max-h-full rounded-xl"
-        />
-      )}
     </div>
   );
 }
