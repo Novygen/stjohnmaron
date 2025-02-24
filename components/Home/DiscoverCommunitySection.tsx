@@ -1,47 +1,93 @@
-// components/Home/DiscoverCommunitySection.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { industries, industrySpecializations } from '@/data/members';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+
+interface Industry {
+  _id: string;
+  name: string;
+  // additional fields can be added if needed
+}
+
+interface Specialization {
+  _id: string;
+  name: string;
+  industry: string; // this references the industry _id
+  // additional fields can be added if needed
+}
 
 export default function DiscoverCommunitySection() {
   const router = useRouter();
 
+  // State for fetched data
+  const [industries, setIndustries] = useState<Industry[]>([]);
+  const [availableSpecializations, setAvailableSpecializations] = useState<
+    Specialization[]
+  >([]);
+
+  // State for selected dropdown values
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
   const [selectedSpecialization, setSelectedSpecialization] =
     useState<string>('');
-  const [availableSpecializations, setAvailableSpecializations] = useState<
-    string[]
-  >([]);
 
+  // Fetch industries on component mount
   useEffect(() => {
-    if (selectedIndustry && industrySpecializations[selectedIndustry]) {
-      setAvailableSpecializations(industrySpecializations[selectedIndustry]);
-    } else {
-      setAvailableSpecializations([]);
-      setSelectedSpecialization('');
+    async function fetchIndustries() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/community/industries`,
+        );
+        if (!res.ok) {
+          console.error('Failed to fetch industries');
+          return;
+        }
+        const data = await res.json();
+        setIndustries(data);
+      } catch (err) {
+        console.error('Error fetching industries:', err);
+      }
     }
+    fetchIndustries();
+  }, []);
+
+  // Fetch specializations when selectedIndustry changes
+  useEffect(() => {
+    async function fetchSpecializations() {
+      if (!selectedIndustry) {
+        setAvailableSpecializations([]);
+        setSelectedSpecialization('');
+        return;
+      }
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations?industryId=${selectedIndustry}`,
+        );
+        if (!res.ok) {
+          console.error('Failed to fetch specializations');
+          return;
+        }
+        const data = await res.json();
+        setAvailableSpecializations(data);
+      } catch (err) {
+        console.error('Error fetching specializations:', err);
+      }
+    }
+    fetchSpecializations();
   }, [selectedIndustry]);
 
+  // Handler for exploring community members
   const handleExplore = () => {
-    // Build query params
     let url = '/community';
     const params = new URLSearchParams();
 
-    if (selectedIndustry) {
-      params.set('industry', selectedIndustry);
-    }
-    if (selectedSpecialization) {
+    if (selectedIndustry) params.set('industry', selectedIndustry);
+    if (selectedSpecialization)
       params.set('specialization', selectedSpecialization);
-    }
 
-    // If any params are set, append them
     if ([...params.keys()].length > 0) {
       url += `?${params.toString()}`;
     }
-
     router.push(url);
   };
 
@@ -82,8 +128,8 @@ export default function DiscoverCommunitySection() {
           >
             <option value="">All Industries</option>
             {industries.map((ind) => (
-              <option key={ind} value={ind}>
-                {ind}
+              <option key={ind._id} value={ind._id}>
+                {ind.name}
               </option>
             ))}
           </select>
@@ -107,8 +153,8 @@ export default function DiscoverCommunitySection() {
           >
             <option value="">All Specializations</option>
             {availableSpecializations.map((spec) => (
-              <option key={spec} value={spec}>
-                {spec}
+              <option key={spec._id} value={spec._id}>
+                {spec.name}
               </option>
             ))}
           </select>

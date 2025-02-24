@@ -1,11 +1,10 @@
 // app/layout.tsx
 import './globals.css';
+import { Providers } from '@/app/providers';
 
 import React from 'react';
 
 import type { Metadata } from 'next';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'St. John Maron Maronite Catholic Church',
@@ -22,10 +21,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-gray-50">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
