@@ -16,6 +16,7 @@ export default function RequestSidebar({
   return (
     <aside className="bg-white rounded-lg shadow p-6 w-full lg:w-1/3">
       <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Quick View</h2>
         <div>
           <label className="block text-sm font-medium text-gray-700">
             First Name
