@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Request } from '@/data/request';
 
 interface RequestSidebarProps {
@@ -10,8 +10,41 @@ interface RequestSidebarProps {
 export default function RequestSidebar({
   membershipRequest,
 }: RequestSidebarProps) {
-  const { personalDetails, contactInformation, createdAt, isApproved } =
-    membershipRequest;
+  const {
+    personalDetails,
+    contactInformation,
+    createdAt,
+    isApproved,
+    isActioned,
+    _id,
+  } = membershipRequest;
+  const [loadingAction, setLoadingAction] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [actionedStatus, setActionedStatus] = useState<string | null>(null);
+
+  async function handleAction(approved: boolean) {
+    setLoadingAction(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/admin/v1/membershipRequests/requestToMember/${_id}`,
+        {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ approved }),
+        },
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Action failed');
+      }
+      setActionedStatus(approved ? 'Approved' : 'Rejected');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoadingAction(false);
+    }
+  }
 
   return (
     <aside className="bg-white rounded-lg shadow p-6 w-full lg:w-1/3">
@@ -71,12 +104,36 @@ export default function RequestSidebar({
           <span className="font-semibold">Status:</span>{' '}
           <input
             type="text"
-            value={isApproved ? 'Approved' : 'Pending'}
+            value={
+              isActioned
+                ? actionedStatus || (isApproved ? 'Approved' : 'Rejected')
+                : 'Pending'
+            }
             disabled
             className="inline-block px-2 py-1 rounded border border-gray-300 bg-gray-100"
           />
         </p>
       </div>
+      {/* If not actioned, display Approve and Reject buttons */}
+      {!isActioned && (
+        <div className="mt-6 flex gap-4">
+          <button
+            onClick={() => handleAction(true)}
+            disabled={loadingAction}
+            className="flex-1 bg-green-500 text-white py-2 rounded-md hover:bg-green-600 transition"
+          >
+            {loadingAction ? 'Processing...' : 'Approve'}
+          </button>
+          <button
+            onClick={() => handleAction(false)}
+            disabled={loadingAction}
+            className="flex-1 bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition"
+          >
+            {loadingAction ? 'Processing...' : 'Reject'}
+          </button>
+        </div>
+      )}
+      {error && <p className="mt-4 text-red-500 text-sm">Error: {error}</p>}
     </aside>
   );
 }

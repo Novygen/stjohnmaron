@@ -1,4 +1,4 @@
-import { Member, MembersAPI } from '@/data/member';
+import { Member, MembersAPI } from '@/data/members';
 import { GetMemberParams, GetMembersParams } from './member/member.interfaces';
 import { getMembers, getMember, updateMember } from './member/memberService';
 

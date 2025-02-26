@@ -79,6 +79,7 @@ export interface Request {
   socialPresence: ISocialPresence;
   privacyConsent: IPrivacyConsent;
   isApproved: boolean;
+  isActioned: boolean;
   softDeleted?: boolean;
   lastModifiedBy?: string;
   createdAt: string;

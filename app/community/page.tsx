@@ -35,6 +35,7 @@ export default async function CommunityPage({
     `${process.env.NEXT_PUBLIC_API_URL}/api/admin/v1/members?limit=100`,
     { next: { revalidate: 0 } },
   );
+  console.log('Members Response:', membersRes);
   if (!membersRes.ok) {
     throw new Error('Failed to fetch members');
   }

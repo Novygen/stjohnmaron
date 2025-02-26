@@ -1,20 +1,31 @@
-import { Member } from '@/data/member';
+import { Member } from '@/data/members';
 
 export const filterMembers = (
   members: Member[],
   filterText: string,
   ageRange: [number, number] | null,
-  currentYear: number,
 ): Member[] => {
-  return members.filter((member: { fullName: string; yearOfBirth: number }) => {
-    const matchesText = member.fullName
-      .toLowerCase()
-      .includes(filterText.toLowerCase());
-    const memberAge = currentYear - member.yearOfBirth;
-    const matchesAge = ageRange
-      ? memberAge >= ageRange[0] && memberAge <= ageRange[1]
-      : true;
-    const matchesVisibility = true;
+  return members.filter((member: Member) => {
+    const fullName =
+      `${member.personalDetails.firstName} ${member.personalDetails.lastName}`.toLowerCase();
+    const matchesText = fullName.includes(filterText.toLowerCase());
+
+    let matchesAge = true;
+    if (ageRange) {
+      // Expecting ageRange string in format "min-max"
+      const ageParts = member.personalDetails.ageRange.split('-').map(Number);
+      if (ageParts.length === 2 && !isNaN(ageParts[0]) && !isNaN(ageParts[1])) {
+        const [memberMin, memberMax] = ageParts;
+        const [filterMin, filterMax] = ageRange;
+        // Check for overlapping ranges: memberMax >= filterMin && memberMin <= filterMax
+        matchesAge = memberMax >= filterMin && memberMin <= filterMax;
+      } else {
+        // if parsing fails, do not match
+        matchesAge = false;
+      }
+    }
+
+    const matchesVisibility = true; // Adjust if additional visibility filtering is needed
     return matchesText && matchesAge && matchesVisibility;
   });
 };
@@ -23,11 +34,11 @@ export const sortMembers = (
   members: Member[],
   sortOrder: 'asc' | 'desc',
 ): Member[] => {
-  return members.sort((a: { fullName: string }, b: { fullName: string }) => {
-    if (sortOrder === 'asc') {
-      return a.fullName.localeCompare(b.fullName);
-    } else {
-      return b.fullName.localeCompare(a.fullName);
-    }
+  return members.sort((a: Member, b: Member) => {
+    const aFullName = `${a.personalDetails.firstName} ${a.personalDetails.lastName}`;
+    const bFullName = `${b.personalDetails.firstName} ${b.personalDetails.lastName}`;
+    return sortOrder === 'asc'
+      ? aFullName.localeCompare(bFullName)
+      : bFullName.localeCompare(aFullName);
   });
 };

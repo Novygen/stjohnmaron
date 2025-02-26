@@ -1,7 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-const tabs = ['About', 'Employment', 'Businesses'];
+const tabs = ['About', 'Notes', 'History'];
 
 interface MemberTabsProps {
   onTabChange: (tab: string) => void;

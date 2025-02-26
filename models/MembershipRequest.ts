@@ -84,6 +84,7 @@ export interface IMembershipRequest extends Document {
   socialPresence: ISocialPresence;
   privacyConsent: IPrivacyConsent;
   isApproved: boolean;
+  isActioned: boolean;
   softDeleted?: boolean;
   lastModifiedBy?: string;
 }
@@ -97,6 +98,7 @@ const MembershipRequestSchema = new Schema<IMembershipRequest>(
     socialPresence: { type: Object, required: true },
     privacyConsent: { type: Object, required: true },
     isApproved: { type: Boolean, default: false },
+    isActioned: { type: Boolean, default: false },
     softDeleted: { type: Boolean, default: false },
     lastModifiedBy: { type: String },
   },

@@ -1,41 +1,62 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
-import { Member } from '@/models/Member';
+import Member from '@/models/Member';
+import { Industry } from '@/models/Industry';
+import { Specialization } from '@/models/Specialization';
 
-// Define asynchronous params type
-type tParams = Promise<{ id: string }>;
+// Helper function to manually populate a single member's professional info
+async function manuallyPopulateMember(memberDoc: any) {
+  const member = memberDoc.toObject();
+
+  // Populate each employment detail's specialization name
+  if (
+    member.professionalInfo &&
+    Array.isArray(member.professionalInfo.employmentDetails)
+  ) {
+    for (let emp of member.professionalInfo.employmentDetails) {
+      if (emp.specialization) {
+        const spec = await Specialization.findById(emp.specialization).select(
+          'name',
+        );
+        emp.specialization = spec ? spec.name : emp.specialization;
+      }
+    }
+  }
+  // Populate each business's industry name
+  if (
+    member.professionalInfo &&
+    Array.isArray(member.professionalInfo.businesses)
+  ) {
+    for (let biz of member.professionalInfo.businesses) {
+      if (biz.industry) {
+        const ind = await Industry.findById(biz.industry).select('name');
+        biz.industry = ind ? ind.name : biz.industry;
+      }
+    }
+  }
+  return member;
+}
 
 /**
- * GET: Retrieves a member by ID.
+ * GET: Retrieves a member by ID, manually populating referenced fields.
  */
-export async function GET(req: NextRequest, { params }: { params: tParams }) {
-  const { id } = await params; // Await the params promise to extract the ID
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const { id } = await params;
   try {
-    // Ensure the database connection is established
     await connectToDatabase();
-
-    // Query for the member and populate the industry and specialization names
-    const member = await Member.findById(id).populate([
-      {
-        path: 'Industry',
-        strictPopulate: false,
-      },
-      {
-        path: 'Specialization',
-        strictPopulate: false,
-      },
-    ]);
-
-    if (!member) {
+    const memberDoc = await Member.findById(id);
+    if (!memberDoc) {
       return NextResponse.json(
         { message: 'Member not found' },
         { status: 404 },
       );
     }
-
+    const member = await manuallyPopulateMember(memberDoc);
     return NextResponse.json(member, { status: 200 });
   } catch (error) {
-    // Log error details if needed and return a clean error message
     console.error(`GET /members/${id} failed:`, error);
     return NextResponse.json(
       { message: (error as Error).message },
@@ -45,30 +66,24 @@ export async function GET(req: NextRequest, { params }: { params: tParams }) {
 }
 
 /**
- * PATCH: Updates a member by ID.
+ * PATCH: Updates a member by ID. Manual population is applied on the updated document.
  */
-export async function PATCH(req: NextRequest, { params }: { params: tParams }) {
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> },
+) {
   const { id } = await params;
   try {
     await connectToDatabase();
-
-    // Read the JSON body containing the update payload
     const body = await req.json();
-
-    // Update the member and populate referenced fields in one query
-    const updatedMember = await Member.findByIdAndUpdate(id, body, {
-      new: true,
-    })
-      .populate('industry', 'name')
-      .populate('specialization', 'name');
-
-    if (!updatedMember) {
+    const updatedDoc = await Member.findByIdAndUpdate(id, body, { new: true });
+    if (!updatedDoc) {
       return NextResponse.json(
         { message: 'Member not found' },
         { status: 404 },
       );
     }
-
+    const updatedMember = await manuallyPopulateMember(updatedDoc);
     return NextResponse.json(updatedMember, { status: 200 });
   } catch (error) {
     console.error(`PATCH /members/${id} failed:`, error);
@@ -84,13 +99,11 @@ export async function PATCH(req: NextRequest, { params }: { params: tParams }) {
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: tParams },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   try {
     await connectToDatabase();
-
-    // Delete the member document by ID
     const deleted = await Member.findByIdAndDelete(id);
     if (!deleted) {
       return NextResponse.json(
@@ -98,7 +111,6 @@ export async function DELETE(
         { status: 404 },
       );
     }
-
     return NextResponse.json({ message: 'Member deleted' }, { status: 200 });
   } catch (error) {
     console.error(`DELETE /members/${id} failed:`, error);
