@@ -4,12 +4,14 @@ import React from 'react';
 import { Request } from '@/data/request';
 
 interface RequestSidebarProps {
-  request: Request;
+  membershipRequest: Request;
 }
 
-export default function RequestSidebar({ request }: RequestSidebarProps) {
-  const { personal_details, contact_information, createdAt, isApproved } =
-    request;
+export default function RequestSidebar({
+  membershipRequest,
+}: RequestSidebarProps) {
+  const { personalDetails, contactInformation, createdAt, isApproved } =
+    membershipRequest;
 
   return (
     <aside className="bg-white rounded-lg shadow p-6 w-full lg:w-1/3">
@@ -20,9 +22,9 @@ export default function RequestSidebar({ request }: RequestSidebarProps) {
           </label>
           <input
             type="text"
-            value={personal_details.first_name}
+            value={personalDetails.firstName}
             disabled
-            className="mt-1 block w-full border-gray-300 rounded-md"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <div>
@@ -31,9 +33,9 @@ export default function RequestSidebar({ request }: RequestSidebarProps) {
           </label>
           <input
             type="text"
-            value={personal_details.last_name}
+            value={personalDetails.lastName}
             disabled
-            className="mt-1 block w-full border-gray-300 rounded-md"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <div>
@@ -42,9 +44,9 @@ export default function RequestSidebar({ request }: RequestSidebarProps) {
           </label>
           <input
             type="text"
-            value={contact_information.primary_email}
+            value={contactInformation.primaryEmail}
             disabled
-            className="mt-1 block w-full border-gray-300 rounded-md"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
         <div>
@@ -53,9 +55,9 @@ export default function RequestSidebar({ request }: RequestSidebarProps) {
           </label>
           <input
             type="text"
-            value={contact_information.primary_phone_number}
+            value={contactInformation.primaryPhoneNumber}
             disabled
-            className="mt-1 block w-full border-gray-300 rounded-md"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
       </div>

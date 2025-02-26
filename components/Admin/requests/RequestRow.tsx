@@ -11,9 +11,8 @@ interface RequestRowProps {
 }
 
 export default function RequestRow({ request, onView }: RequestRowProps) {
-  // Compute full name from the nested personal_details.
-  const fullName = `${request.personal_details.first_name} ${request.personal_details.last_name}`;
-  const email = request.contact_information.primary_email;
+  const fullName = `${request.personalDetails.firstName} ${request.personalDetails.lastName}`;
+  const email = request.contactInformation.primaryEmail;
 
   return (
     <motion.div

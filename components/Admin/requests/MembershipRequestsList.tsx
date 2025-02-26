@@ -29,7 +29,7 @@ export default function MembershipRequestsList() {
           page: page.toString(),
           limit: limit.toString(),
           search: search,
-          sortField: 'personal_details.first_name',
+          sortField: 'personalDetails.firstName',
           sortOrder: sortOrder,
         });
         setRequestsData(data);
@@ -67,7 +67,7 @@ export default function MembershipRequestsList() {
     <div className="relative transition-all w-full z-30">
       <div className="flex justify-between items-center mb-4 bg-white rounded-lg shadow-md p-4">
         <h2 className="md:text-2xl font-semibold">
-          Membership Requests (
+          Requests (
           {`${requestsData.data.length} / ${requestsData.pagination.total}`})
         </h2>
         <div className="flex space-x-4">

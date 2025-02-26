@@ -2,15 +2,15 @@
 
 import React from 'react';
 
-interface RequestTabsProps {
+interface MembershipRequestTabsProps {
   onTabChange: (tab: string) => void;
   activeTab: string;
 }
 
-export default function RequestTabs({
+export default function MembershipRequestTabs({
   onTabChange,
   activeTab,
-}: RequestTabsProps) {
+}: MembershipRequestTabsProps) {
   const tabs = ['details', 'notes', 'history'];
   return (
     <div className="border-b border-gray-200 mb-4">

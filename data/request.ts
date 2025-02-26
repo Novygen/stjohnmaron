@@ -3,14 +3,10 @@ export interface IMemberLogin {
 }
 
 export interface IPersonalDetails {
-  first_name: string;
-  last_name: string;
-  middle_name?: string;
-}
-
-export interface IDemographicInformation {
-  date_of_birth: string;
-  gender?: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  ageRange: string;
 }
 
 export interface IAddress {
@@ -23,8 +19,8 @@ export interface IAddress {
 }
 
 export interface IContactInformation {
-  primary_phone_number: string;
-  primary_email: string;
+  primaryPhoneNumber: string;
+  primaryEmail: string;
   address: IAddress;
 }
 
@@ -33,112 +29,55 @@ export interface IEmploymentStatus {
 }
 
 export interface IEmploymentDetails {
-  company_name: string;
-  job_title: string;
-  industry: string;
-  years_of_experience: number;
-}
-
-export interface IEmploymentHistory {
-  previous_occupation: string;
-  mentorship_interest: boolean;
+  companyName: string;
+  jobTitle: string;
+  specialization: string;
+  startDate: string; // Format: "MM/YYYY"
 }
 
 export interface IBusiness {
-  business_name: string;
-  business_type: string;
-  has_physical_store: boolean;
-  business_address: IAddress;
-}
-
-export interface IServiceProvider {
-  service_name: string;
-  service_details: string[];
+  businessName: string;
+  additionalInformation: string;
+  website: string;
+  phoneNumber: string;
+  industry: string;
 }
 
 export interface IStudent {
-  school_name: string;
-  field_of_study: string;
-  expected_graduation_year: number;
+  schoolName: string;
+  fieldOfStudy: string;
+  expectedGraduationYear: number;
 }
 
 export interface IProfessionalInfo {
-  employment_status: IEmploymentStatus;
-  employment_details?: IEmploymentDetails;
-  employment_history?: IEmploymentHistory;
-  businesses?: IBusiness[];
-  service_providers?: IServiceProvider[];
-  students?: IStudent[];
+  employmentStatus: IEmploymentStatus;
+  employmentDetails?: IEmploymentDetails;
+  ownsBusinessOrService?: boolean;
+  business?: IBusiness;
+  student?: IStudent;
 }
 
 export interface ISocialPresence {
-  personal_website?: string;
-  linked_in_profile?: string;
-  facebook_profile?: string;
-  instagram_handle?: string;
-  other_social_media_links: string[];
+  personalWebsite?: string;
+  linkedInProfile?: string;
+  facebookProfile?: string;
+  instagramHandle?: string;
 }
 
-// New structured privacy consent interface
 export interface IPrivacyConsent {
-  display_in_yellow_pages: boolean;
-  public_visibility: {
-    personal_details?: {
-      first_name?: boolean;
-      last_name?: boolean;
-      middle_name?: boolean;
-    };
-    demographic_information?: {
-      date_of_birth?: boolean;
-      gender?: boolean;
-    };
-    contact_information?: {
-      primary_phone_number?: boolean;
-      primary_email?: boolean;
-      address?: {
-        line1?: boolean;
-        line2?: boolean;
-        city?: boolean;
-        state?: boolean;
-        zip?: boolean;
-        country?: boolean;
-      };
-    };
-    professional_info?: {
-      employment_status?: boolean;
-      employment_details?: {
-        company_name?: boolean;
-        job_title?: boolean;
-        industry?: boolean;
-        years_of_experience?: boolean;
-      };
-      employment_history?: {
-        previous_occupation?: boolean;
-        mentorship_interest?: boolean;
-      };
-      businesses?: boolean;
-      service_providers?: boolean;
-      students?: boolean;
-    };
-    social_presence?: {
-      personal_website?: boolean;
-      linked_in_profile?: boolean;
-      facebook_profile?: boolean;
-      instagram_handle?: boolean;
-      other_social_media_links?: boolean;
-    };
-  };
+  internalConsent: boolean;
+  displayInYellowPages: boolean;
+  displayPhonePublicly: boolean;
 }
 
 export interface Request {
   _id: string;
-  member_login: IMemberLogin;
-  personal_details: IPersonalDetails;
-  demographic_information: IDemographicInformation;
-  contact_information: IContactInformation;
-  professional_info: IProfessionalInfo;
-  social_presence: ISocialPresence;
-  privacy_consent: IPrivacyConsent;
+  memberLogin: IMemberLogin;
+  personalDetails: IPersonalDetails;
+  contactInformation: IContactInformation;
+  professionalInfo: IProfessionalInfo;
+  socialPresence: ISocialPresence;
+  privacyConsent: IPrivacyConsent;
   isApproved: boolean;
   softDeleted?: boolean;
   lastModifiedBy?: string;

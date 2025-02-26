@@ -8,19 +8,19 @@ export const filterRequests = (
 ): Request[] => {
   return requests.filter((request: Request) => {
     const matchesText =
-      request.personal_details.first_name
+      request.personalDetails.firstName
         .toLowerCase()
         .includes(filterText.toLowerCase()) ||
-      request.personal_details.last_name
+      request.personalDetails.lastName
         .toLowerCase()
         .includes(filterText.toLowerCase()) ||
-      request.contact_information.primary_email
+      request.contactInformation.primaryEmail
         .toLowerCase()
         .includes(filterText.toLowerCase()) ||
-      request.contact_information.primary_phone_number
+      request.contactInformation.primaryPhoneNumber
         .toLowerCase()
         .includes(filterText.toLowerCase()) ||
-      request.professional_info
+      request.professionalInfo.employmentDetails?.companyName
         .toLowerCase()
         .includes(filterText.toLowerCase());
 
@@ -40,12 +40,12 @@ export const sortRequests = (
 ): Request[] => {
   return requests.sort((a: Request, b: Request) => {
     if (sortOrder === 'asc') {
-      return a.personal_details.first_name.localeCompare(
-        b.personal_details.first_name,
+      return a.personalDetails.firstName.localeCompare(
+        b.personalDetails.firstName,
       );
     } else {
-      return b.personal_details.first_name.localeCompare(
-        a.personal_details.first_name,
+      return b.personalDetails.firstName.localeCompare(
+        a.personalDetails.firstName,
       );
     }
   });

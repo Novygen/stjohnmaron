@@ -24,19 +24,19 @@ export async function GET(req: Request) {
       searchCriteria = {
         $or: [
           {
-            'personal_details.first_name': {
+            'personalDetails.firstName': {
               $regex: searchQuery,
               $options: 'i',
             },
           },
           {
-            'personal_details.last_name': {
+            'personalDetails.lastName': {
               $regex: searchQuery,
               $options: 'i',
             },
           },
           {
-            'contact_information.primary_email': {
+            'contactInformation.primaryEmail': {
               $regex: searchQuery,
               $options: 'i',
             },

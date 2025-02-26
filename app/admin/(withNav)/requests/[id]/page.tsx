@@ -55,12 +55,12 @@ export default function ViewRequestPage() {
   return (
     <div className="flex flex-col lg:flex-row p-6 space-x-1 lg:space-x-6 bg-gray-50 min-h-screen">
       {/* Left Sidebar */}
-      <RequestSidebar request={requestData} />
+      <RequestSidebar membershipRequest={requestData} />
 
       {/* Main Content Area */}
       <div className="flex-1 bg-white rounded-lg shadow p-6">
         <RequestTabs onTabChange={handleTabChange} activeTab={activeTab} />
-        <RequestContent request={requestData} tab={activeTab} />
+        <RequestContent membershipRequest={requestData} tab={activeTab} />
       </div>
     </div>
   );

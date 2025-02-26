@@ -4,16 +4,17 @@ import React from 'react';
 import { Request } from '@/data/request';
 
 interface RequestContentProps {
-  request: Request;
+  membershipRequest: Request;
   tab: string;
 }
 
-export default function RequestContent({ request, tab }: RequestContentProps) {
+export default function RequestContent({
+  membershipRequest,
+  tab,
+}: RequestContentProps) {
   if (tab === 'details') {
     return (
       <div className="space-y-6">
-        <h3 className="text-2xl font-bold mb-4">Request Details</h3>
-
         {/* Personal Details */}
         <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
           <h4 className="text-xl font-semibold mb-4">Personal Details</h4>
@@ -24,9 +25,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.personal_details.first_name}
+                value={membershipRequest.personalDetails.firstName}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -35,57 +36,35 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.personal_details.last_name}
+                value={membershipRequest.personalDetails.lastName}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            {request.personal_details.middle_name && (
+            {membershipRequest.personalDetails.middleName && (
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Middle Name
                 </label>
                 <input
                   type="text"
-                  value={request.personal_details.middle_name}
+                  value={membershipRequest.personalDetails.middleName}
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             )}
           </div>
-        </div>
-
-        {/* Demographic Information */}
-        <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
-          <h4 className="text-xl font-semibold mb-4">
-            Demographic Information
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Date of Birth
-              </label>
-              <input
-                type="text"
-                value={request.demographic_information.date_of_birth}
-                disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
-              />
-            </div>
-            {request.demographic_information.gender && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Gender
-                </label>
-                <input
-                  type="text"
-                  value={request.demographic_information.gender}
-                  disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
-                />
-              </div>
-            )}
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">
+              Age Range
+            </label>
+            <input
+              type="text"
+              value={membershipRequest.personalDetails.ageRange}
+              disabled
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
           </div>
         </div>
 
@@ -99,9 +78,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.contact_information.primary_email}
+                value={membershipRequest.contactInformation.primaryEmail}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -110,9 +89,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.contact_information.primary_phone_number}
+                value={membershipRequest.contactInformation.primaryPhoneNumber}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -122,21 +101,21 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
             </label>
             <input
               type="text"
-              value={request.contact_information.address.line1}
+              value={membershipRequest.contactInformation.address.line1}
               disabled
-              className="mt-1 block w-full border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          {request.contact_information.address.line2 && (
+          {membershipRequest.contactInformation.address.line2 && (
             <div className="mt-4">
               <label className="block text-sm font-medium text-gray-700">
                 Address Line 2
               </label>
               <input
                 type="text"
-                value={request.contact_information.address.line2}
+                value={membershipRequest.contactInformation.address.line2}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           )}
@@ -147,9 +126,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.contact_information.address.city}
+                value={membershipRequest.contactInformation.address.city}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -158,9 +137,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.contact_information.address.state}
+                value={membershipRequest.contactInformation.address.state}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -169,9 +148,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.contact_information.address.zip}
+                value={membershipRequest.contactInformation.address.zip}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -181,9 +160,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
             </label>
             <input
               type="text"
-              value={request.contact_information.address.country}
+              value={membershipRequest.contactInformation.address.country}
               disabled
-              className="mt-1 block w-full border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
@@ -199,35 +178,124 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
             </label>
             <input
               type="text"
-              value={request.professional_info.employment_status.status}
+              value={membershipRequest.professionalInfo.employmentStatus.status}
               disabled
-              className="mt-1 block w-full border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          {request.professional_info.employment_details && (
-            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+          {membershipRequest.professionalInfo.employmentDetails && (
+            <>
+              <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Company Name
+                  </label>
+                  <input
+                    type="text"
+                    value={
+                      membershipRequest.professionalInfo.employmentDetails
+                        .companyName
+                    }
+                    disabled
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Job Title
+                  </label>
+                  <input
+                    type="text"
+                    value={
+                      membershipRequest.professionalInfo.employmentDetails
+                        .jobTitle
+                    }
+                    disabled
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div></div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Company Name
+                  Specialization
                 </label>
                 <input
                   type="text"
                   value={
-                    request.professional_info.employment_details.company_name
+                    membershipRequest.professionalInfo.employmentDetails
+                      .specialization
                   }
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Job Title
+                  Start Date
                 </label>
                 <input
                   type="text"
-                  value={request.professional_info.employment_details.job_title}
+                  value={
+                    membershipRequest.professionalInfo.employmentDetails
+                      .startDate
+                  }
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </>
+          )}
+          {membershipRequest.professionalInfo.business && (
+            <div className="mb-4 p-4 border rounded">
+              <h5 className="text-lg font-semibold mb-2">Business</h5>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Business Name
+                </label>
+                <input
+                  type="text"
+                  value={
+                    membershipRequest.professionalInfo.business.businessName
+                  }
+                  disabled
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Additional Information
+                </label>
+                <input
+                  type="text"
+                  value={
+                    membershipRequest.professionalInfo.business
+                      .additionalInformation
+                  }
+                  disabled
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Website
+                </label>
+                <input
+                  type="text"
+                  value={membershipRequest.professionalInfo.business.website}
+                  disabled
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  value={
+                    membershipRequest.professionalInfo.business.phoneNumber
+                  }
+                  disabled
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
@@ -236,196 +304,56 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
                 </label>
                 <input
                   type="text"
-                  value={request.professional_info.employment_details.industry}
+                  value={membershipRequest.professionalInfo.business.industry}
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Years of Experience
-                </label>
-                <input
-                  type="text"
-                  value={
-                    request.professional_info.employment_details
-                      .years_of_experience
-                  }
-                  disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
           )}
-          {request.professional_info.employment_history && (
-            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+          {membershipRequest.professionalInfo.student && (
+            <div className="mb-4 p-4 border rounded">
+              <h5 className="text-lg font-semibold mb-2">Student Details</h5>
+              <div className="mb-2">
                 <label className="block text-sm font-medium text-gray-700">
-                  Previous Occupation
+                  School Name
+                </label>
+                <input
+                  type="text"
+                  value={membershipRequest.professionalInfo.student.schoolName}
+                  disabled
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Field of Study
                 </label>
                 <input
                   type="text"
                   value={
-                    request.professional_info.employment_history
-                      .previous_occupation
+                    membershipRequest.professionalInfo.student.fieldOfStudy
                   }
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Mentorship Interest
+                  Expected Graduation Year
                 </label>
                 <input
                   type="text"
                   value={
-                    request.professional_info.employment_history
-                      .mentorship_interest
-                      ? 'Yes'
-                      : 'No'
+                    membershipRequest.professionalInfo.student
+                      .expectedGraduationYear
                   }
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
           )}
-          {request.professional_info.businesses &&
-            request.professional_info.businesses.length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-lg font-semibold mb-2">Businesses</h5>
-                {request.professional_info.businesses.map((business, index) => (
-                  <div key={index} className="p-4 mb-2 border rounded">
-                    <div className="mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Business Name
-                      </label>
-                      <input
-                        type="text"
-                        value={business.business_name}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Business Type
-                      </label>
-                      <input
-                        type="text"
-                        value={business.business_type}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Has Physical Store
-                      </label>
-                      <input
-                        type="text"
-                        value={business.has_physical_store ? 'Yes' : 'No'}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                    {business.business_address && (
-                      <div className="mb-2">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Business Address
-                        </label>
-                        <input
-                          type="text"
-                          value={`${business.business_address.line1}, ${business.business_address.city}`}
-                          disabled
-                          className="mt-1 block w-full border-gray-300 rounded-md"
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          {request.professional_info.service_providers &&
-            request.professional_info.service_providers.length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-lg font-semibold mb-2">
-                  Service Providers
-                </h5>
-                {request.professional_info.service_providers.map(
-                  (provider, index) => (
-                    <div key={index} className="p-4 mb-2 border rounded">
-                      <div className="mb-2">
-                        <label className="block text-sm font-medium text-gray-700">
-                          Service Name
-                        </label>
-                        <input
-                          type="text"
-                          value={provider.service_name}
-                          disabled
-                          className="mt-1 block w-full border-gray-300 rounded-md"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Service Details
-                        </label>
-                        <input
-                          type="text"
-                          value={provider.service_details.join(', ')}
-                          disabled
-                          className="mt-1 block w-full border-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                  ),
-                )}
-              </div>
-            )}
-          {request.professional_info.students &&
-            request.professional_info.students.length > 0 && (
-              <div className="mb-4">
-                <h5 className="text-lg font-semibold mb-2">Students</h5>
-                {request.professional_info.students.map((student, index) => (
-                  <div key={index} className="p-4 mb-2 border rounded">
-                    <div className="mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        School Name
-                      </label>
-                      <input
-                        type="text"
-                        value={student.school_name}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div className="mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        Field of Study
-                      </label>
-                      <input
-                        type="text"
-                        value={student.field_of_study}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Expected Graduation Year
-                      </label>
-                      <input
-                        type="text"
-                        value={student.expected_graduation_year}
-                        disabled
-                        className="mt-1 block w-full border-gray-300 rounded-md"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
         </div>
 
         {/* Social Presence */}
@@ -438,9 +366,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.social_presence.personal_website || ''}
+                value={membershipRequest.socialPresence.personalWebsite || ''}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -449,9 +377,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.social_presence.linked_in_profile || ''}
+                value={membershipRequest.socialPresence.linkedInProfile || ''}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -460,9 +388,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.social_presence.facebook_profile || ''}
+                value={membershipRequest.socialPresence.facebookProfile || ''}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -471,22 +399,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={request.social_presence.instagram_handle || ''}
+                value={membershipRequest.socialPresence.instagramHandle || ''}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Other Social Media Links
-              </label>
-              <input
-                type="text"
-                value={request.social_presence.other_social_media_links.join(
-                  ', ',
-                )}
-                disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -495,11 +410,11 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
         {/* Privacy Consent */}
         <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
           <h4 className="text-xl font-semibold mb-4">Privacy Consent</h4>
-          <div className="mb-4">
+          <div className="flex items-center space-x-4">
             <label className="inline-flex items-center">
               <input
                 type="checkbox"
-                checked={request.privacy_consent.display_in_yellow_pages}
+                checked={membershipRequest.privacyConsent.displayInYellowPages}
                 disabled
                 className="form-checkbox"
               />
@@ -507,462 +422,17 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
                 Display in Yellow Pages
               </span>
             </label>
-          </div>
-          <div>
-            <h5 className="text-lg font-semibold mb-2">Public Visibility</h5>
-            {/* Personal Details */}
-            {request.privacy_consent.public_visibility.personal_details && (
-              <div className="mb-2">
-                <h6 className="font-medium">Personal Details</h6>
-                <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .personal_details.first_name || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      First Name
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .personal_details.last_name || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Last Name
-                    </span>
-                  </label>
-                  {request.privacy_consent.public_visibility.personal_details
-                    .middle_name !== undefined && (
-                    <label className="inline-flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={
-                          request.privacy_consent.public_visibility
-                            .personal_details.middle_name || false
-                        }
-                        disabled
-                        className="form-checkbox"
-                      />
-                      <span className="ml-2 text-sm text-gray-700">
-                        Middle Name
-                      </span>
-                    </label>
-                  )}
-                </div>
-              </div>
-            )}
-            {/* Demographic Information */}
-            {request.privacy_consent.public_visibility
-              .demographic_information && (
-              <div className="mb-2">
-                <h6 className="font-medium">Demographic Information</h6>
-                <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .demographic_information.date_of_birth || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Date of Birth
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .demographic_information.gender || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Gender</span>
-                  </label>
-                </div>
-              </div>
-            )}
-            {/* Contact Information */}
-            {request.privacy_consent.public_visibility.contact_information && (
-              <div className="mb-2">
-                <h6 className="font-medium">Contact Information</h6>
-                <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .contact_information.primary_phone_number || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Phone Number
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .contact_information.primary_email || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Email</span>
-                  </label>
-                  {request.privacy_consent.public_visibility.contact_information
-                    .address && (
-                    <div>
-                      <h6 className="font-medium mt-2">Address</h6>
-                      <div className="flex flex-wrap gap-4">
-                        <label className="inline-flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={
-                              request.privacy_consent.public_visibility
-                                .contact_information.address.line1 || false
-                            }
-                            disabled
-                            className="form-checkbox"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            Line 1
-                          </span>
-                        </label>
-                        {request.privacy_consent.public_visibility
-                          .contact_information.address.line2 !== undefined && (
-                          <label className="inline-flex items-center">
-                            <input
-                              type="checkbox"
-                              checked={
-                                request.privacy_consent.public_visibility
-                                  .contact_information.address.line2 || false
-                              }
-                              disabled
-                              className="form-checkbox"
-                            />
-                            <span className="ml-2 text-sm text-gray-700">
-                              Line 2
-                            </span>
-                          </label>
-                        )}
-                        <label className="inline-flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={
-                              request.privacy_consent.public_visibility
-                                .contact_information.address.city || false
-                            }
-                            disabled
-                            className="form-checkbox"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            City
-                          </span>
-                        </label>
-                        <label className="inline-flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={
-                              request.privacy_consent.public_visibility
-                                .contact_information.address.state || false
-                            }
-                            disabled
-                            className="form-checkbox"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            State
-                          </span>
-                        </label>
-                        <label className="inline-flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={
-                              request.privacy_consent.public_visibility
-                                .contact_information.address.zip || false
-                            }
-                            disabled
-                            className="form-checkbox"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            ZIP
-                          </span>
-                        </label>
-                        <label className="inline-flex items-center">
-                          <input
-                            type="checkbox"
-                            checked={
-                              request.privacy_consent.public_visibility
-                                .contact_information.address.country || false
-                            }
-                            disabled
-                            className="form-checkbox"
-                          />
-                          <span className="ml-2 text-sm text-gray-700">
-                            Country
-                          </span>
-                        </label>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-            {/* Professional Information */}
-            {request.privacy_consent.public_visibility.professional_info && (
-              <div className="mb-2">
-                <h6 className="font-medium">Professional Information</h6>
-                <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .professional_info.employment_status || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Employment Status
-                    </span>
-                  </label>
-                  {request.privacy_consent.public_visibility.professional_info
-                    .employment_details && (
-                    <>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_details
-                              .company_name || false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Company Name
-                        </span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_details.job_title ||
-                            false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Job Title
-                        </span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_details.industry ||
-                            false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Industry
-                        </span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_details
-                              .years_of_experience || false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Experience (Years)
-                        </span>
-                      </label>
-                    </>
-                  )}
-                  {request.privacy_consent.public_visibility.professional_info
-                    .employment_history && (
-                    <>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_history
-                              .previous_occupation || false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Previous Occupation
-                        </span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          checked={
-                            request.privacy_consent.public_visibility
-                              .professional_info.employment_history
-                              .mentorship_interest || false
-                          }
-                          disabled
-                          className="form-checkbox"
-                        />
-                        <span className="ml-2 text-sm text-gray-700">
-                          Mentorship Interest
-                        </span>
-                      </label>
-                    </>
-                  )}
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .professional_info.businesses || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Businesses
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .professional_info.service_providers || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Service Providers
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .professional_info.students || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Students</span>
-                  </label>
-                </div>
-              </div>
-            )}
-            {/* Social Presence */}
-            {request.privacy_consent.public_visibility.social_presence && (
-              <div className="mb-2">
-                <h6 className="font-medium">Social Presence</h6>
-                <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .social_presence.personal_website || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Personal Website
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .social_presence.linked_in_profile || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">LinkedIn</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .social_presence.facebook_profile || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">Facebook</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .social_presence.instagram_handle || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Instagram
-                    </span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={
-                        request.privacy_consent.public_visibility
-                          .social_presence.other_social_media_links || false
-                      }
-                      disabled
-                      className="form-checkbox"
-                    />
-                    <span className="ml-2 text-sm text-gray-700">
-                      Other Links
-                    </span>
-                  </label>
-                </div>
-              </div>
-            )}
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                checked={membershipRequest.privacyConsent.displayPhonePublicly}
+                disabled
+                className="form-checkbox"
+              />
+              <span className="ml-2 text-sm text-gray-700">
+                Display Phone Publicly
+              </span>
+            </label>
           </div>
         </div>
 
@@ -976,9 +446,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               </label>
               <input
                 type="text"
-                value={new Date(request.createdAt).toLocaleString()}
+                value={new Date(membershipRequest.createdAt).toLocaleString()}
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
@@ -988,12 +458,12 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
               <input
                 type="text"
                 value={
-                  request.updatedAt
-                    ? new Date(request.updatedAt).toLocaleString()
+                  membershipRequest.updatedAt
+                    ? new Date(membershipRequest.updatedAt).toLocaleString()
                     : 'N/A'
                 }
                 disabled
-                className="mt-1 block w-full border-gray-300 rounded-md"
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           </div>
@@ -1001,7 +471,6 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
       </div>
     );
   } else if (tab === 'notes') {
-    // Dummy notes section remains unchanged
     const dummyNotes = [
       {
         id: 1,
@@ -1034,7 +503,7 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
                     type="text"
                     value={note.author}
                     disabled
-                    className="mt-1 block w-full border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
@@ -1045,7 +514,7 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
                     type="text"
                     value={note.date}
                     disabled
-                    className="mt-1 block w-full border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
               </div>
@@ -1056,7 +525,7 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
                 <textarea
                   value={note.content}
                   disabled
-                  className="mt-1 block w-full border-gray-300 rounded-md"
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   rows={2}
                 />
               </div>
@@ -1070,7 +539,7 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
           <textarea
             placeholder="Enter new note..."
             disabled
-            className="mt-1 block w-full border-gray-300 rounded-md"
+            className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             rows={3}
           />
         </div>
@@ -1087,9 +556,9 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
             </label>
             <input
               type="text"
-              value={new Date(request.createdAt).toLocaleString()}
+              value={new Date(membershipRequest.createdAt).toLocaleString()}
               disabled
-              className="mt-1 block w-full border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
@@ -1099,12 +568,12 @@ export default function RequestContent({ request, tab }: RequestContentProps) {
             <input
               type="text"
               value={
-                request.updatedAt
-                  ? new Date(request.updatedAt).toLocaleString()
+                membershipRequest.updatedAt
+                  ? new Date(membershipRequest.updatedAt).toLocaleString()
                   : 'N/A'
               }
               disabled
-              className="mt-1 block w-full border-gray-300 rounded-md"
+              className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-gray-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
