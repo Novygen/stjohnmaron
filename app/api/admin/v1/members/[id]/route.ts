@@ -37,6 +37,8 @@ async function manuallyPopulateMember(memberDoc: any) {
   return member;
 }
 
+type tParams = Promise<{ id: string }>;
+
 /**
  * GET: Retrieves a member by ID, manually populating referenced fields.
  */

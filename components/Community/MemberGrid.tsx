@@ -1,11 +1,9 @@
-// components/Community/MemberGrid.tsx
 'use client';
 
 import React from 'react';
-
+import { motion, AnimatePresence } from 'framer-motion';
 import MemberCard from './MemberCard';
 import { Member } from '@/data/members';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface MemberGridProps {
   members: Member[];

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongoose';
 import MembershipRequest from '@/models/MembershipRequest';
-import { Member } from '@/models/Member'; // Assuming the Member model remains unchanged
 
 // Define asynchronous params type
 type tParams = Promise<{ id: string }>;

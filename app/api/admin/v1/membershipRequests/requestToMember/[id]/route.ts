@@ -6,13 +6,12 @@ import Member, { IMember } from '@/models/Member';
 import { Industry } from '@/models/Industry';
 import { Specialization } from '@/models/Specialization';
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } },
-) {
+type tParams = Promise<{ id: string }>;
+
+export async function PATCH(req: Request, { params }: { params: tParams }) {
   try {
     await connectToDatabase();
-    const { id } = params;
+    const { id } = await params;
     const body = await req.json();
     const { approved } = body; // expecting: { approved: true } or { approved: false }
 

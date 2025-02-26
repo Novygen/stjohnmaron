@@ -21,37 +21,49 @@ export default async function CommunityPage({
 }: CommunityPageProps) {
   // Resolve query parameters for filtering
   const resolvedSearchParams = await searchParams;
-  const industry =
+  const industryFilter =
     typeof resolvedSearchParams.industry === 'string'
       ? resolvedSearchParams.industry
       : '';
-  const specialization =
+  const specializationFilter =
     typeof resolvedSearchParams.specialization === 'string'
       ? resolvedSearchParams.specialization
       : '';
 
-  // Fetch members from API
+  // Fetch members from the public API
   const membersRes = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/admin/v1/members?limit=100`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/public/members`,
     { next: { revalidate: 0 } },
   );
-  console.log('Members Response:', membersRes);
   if (!membersRes.ok) {
     throw new Error('Failed to fetch members');
   }
   const membersJson = await membersRes.json();
   const members = membersJson.data;
 
-  // Filter members based on the query parameters (matching by ID)
+  // Filter members based on nested professionalInfo.
+  // For industry, use the first business's industry _id.
+  // For specialization, use the first employment detail's specialization _id.
   const filteredMembers = members.filter((member: any) => {
-    let matchesIndustry = true;
-    let matchesSpecialization = true;
-    if (industry) {
-      matchesIndustry = member.industry === industry;
-    }
-    if (specialization) {
-      matchesSpecialization = member.specialization === specialization;
-    }
+    const business = member.professionalInfo?.businesses?.[0];
+    const memberIndustryId = business
+      ? typeof business.industry === 'object'
+        ? business.industry._id
+        : business.industry
+      : '';
+    const employment = member.professionalInfo?.employmentDetails?.[0];
+    const memberSpecializationId = employment
+      ? typeof employment.specialization === 'object'
+        ? employment.specialization._id
+        : employment.specialization
+      : '';
+
+    let matchesIndustry = industryFilter
+      ? memberIndustryId === industryFilter
+      : true;
+    let matchesSpecialization = specializationFilter
+      ? memberSpecializationId === specializationFilter
+      : true;
     return matchesIndustry && matchesSpecialization;
   });
 
@@ -66,9 +78,8 @@ export default async function CommunityPage({
   const industries = await industriesRes.json();
 
   // Fetch specializations from API.
-  // If an industry is selected, filter specializations server-side by passing its ID.
-  const specializationsUrl = industry
-    ? `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations?industryId=${industry}`
+  const specializationsUrl = industryFilter
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations?industryId=${industryFilter}`
     : `${process.env.NEXT_PUBLIC_API_URL}/api/community/specializations`;
   const specializationsRes = await fetch(specializationsUrl, {
     next: { revalidate: 0 },
@@ -77,10 +88,6 @@ export default async function CommunityPage({
     throw new Error('Failed to fetch specializations');
   }
   const specializations = await specializationsRes.json();
-
-  console.log('Members Data:', members);
-  console.log('Industries Data:', industries);
-  console.log('Specializations Data:', specializations);
 
   return (
     <section
@@ -101,8 +108,8 @@ export default async function CommunityPage({
       </header>
 
       <CommunityFilterBar
-        defaultIndustry={industry}
-        defaultSpecialization={specialization}
+        defaultIndustry={industryFilter}
+        defaultSpecialization={specializationFilter}
         industries={industries}
         specializations={specializations}
       />
