@@ -1,4 +1,4 @@
-import { Member, MembersAPI } from '@/data/member';
+import { Member, MembersAPI } from '@/data/members';
 import { GetMemberParams, GetMembersParams } from './member.interfaces';
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || './';
